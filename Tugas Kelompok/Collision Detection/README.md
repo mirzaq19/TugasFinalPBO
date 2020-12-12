@@ -137,3 +137,30 @@ public void move() {
     }
 }
 ```
+
+### Kelas `Alien`
+Kelas ini merupakan kelas turunan dari kelas sprite. Kelas ini berfungsi sebagai wadah dari alien yang akan dilawan oleh pemain saat memainkan gamenya nanti. 
+
+Pada kelas ini memiliki constructor seperti berikut yang memanggil contructor dari kelas parent nya, kemudian melakukan pemuatan gambar dari aliennya.
+```JAVA
+public Alien(int x, int y) {
+    super(x, y);
+    initAlien();
+}
+private void initAlien() {
+    loadImage("src/resources/alien.png");
+    getImageDimensions();
+}
+```
+Kemudian Ada fungsi `move()` yang akan digunakan untuk menggerakkan gambar dari aliennya. Cara kerjanya adalah posisi koordinat x dari setiap alien akan dikurang 1 secara terus menerus sampai koordinat x dari alien tersebut kurang dari 0. 
+
+Jika dilihat hasilnya saat program dijalankan maka alien akan terlihat bergerak ke kiri kemudian hilang dan muncul lagi dari sisi lain. Ketika alien koordinat x dari alien kurang dari 0, maka koordinat x dari alien tersebut akan kembali ke `INITIAL_X` yang bernilai `400`.
+
+```JAVA
+public void move() {
+    if (x < 0) {
+        x = INITIAL_X;
+    }
+    x -= 1;
+}
+```
