@@ -458,3 +458,29 @@ public void checkCollisions() {
     }
 }
 ```
+### Kelas `CollisionEx`
+Kelas ini digunakan sebagai kelas yang menampilkan sebuah window berisi game dengan kelas-kelas yang sudah kita buat sebelumnya. 
+
+Berikut adalah constructor dari kelas ini yang berisi instansiasi dari kelas `Board` sebelumnya. Di sini juga mengatur judul dari window game yang muncul saat program dijalankan.
+```JAVA
+public CollisionEx() {
+
+    initUI();
+}
+
+private void initUI() {
+
+    add(new Board());
+
+    setResizable(false);
+    pack();
+
+    setTitle("Alien Shooter");
+    setLocationRelativeTo(null);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+}
+```
+
+## Hasil Program
+Semua kelas yang dibutuhkan sudah lengkap dan ketika dijalankan hasilnya akan seperti ini :
+
