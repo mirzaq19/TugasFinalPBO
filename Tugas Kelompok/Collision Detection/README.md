@@ -175,37 +175,35 @@ Kelas ini merupakan kelas turunan dari kelas sprite yang digunakan sebagai insia
 Pada kelas ini memiliki properti dengan access modifier `private` dan keyword `final` yang bermakna hanya dapat diakses di kelas ini saja dan nilai yang dimasukkan hanya bisa sebanyak satu kali. Propertinya adalah `BOARD_WIDTH`sebagai flag dan `MISSILE_SPEED` yang digunakan sebagai kecepatan objek.
 
 ```JAVA
-    private final int BOARD_WIDTH = 390;
-    private final int MISSILE_SPEED = 2;
+private final int BOARD_WIDTH = 390;
+private final int MISSILE_SPEED = 2;
 ```
 
 Sama seperti kelas-kelas sebelumnya, kelas ini memiliki constructor  yang memanggil constructor dari kelas parent-nya. Kemudian, cunstructor ini ditambah dengan fungsi `initMissile()` untuk melakukan render gambar dan dimensi dari objek tersebut.
 
 ```JAVA
-   public Missile(int x, int y) {
-        super(x, y);
+public Missile(int x, int y) {
+    super(x, y);
 
-        initMissile();
-    }
+    initMissile();
+}
+
+private void initMissile() {
     
-    private void initMissile() {
-        
-        loadImage("src/resources/missile.png");
-        getImageDimensions();        
-    }
+    loadImage("src/resources/missile.png");
+    getImageDimensions();        
 }
 ```
 
 Lalu terdapat fungsi `move()` yang berguna untuk memberikan akses bagi objek dalam bergerak. Berbeda dengan fungsi `move()` yang ada di kelas SpaceShip, fungsi ini bergerak secara konstan berdasarkan `MISSILE_SPEED` dan objek akan dihancurkan apabila telah melewati batas dari `BOARD_WIDTH`.
 
 ```JAVA
-  public void move() {
-        
-        x += MISSILE_SPEED;
-        
-        if (x > BOARD_WIDTH)
-            visible = false;
-    }
+public void move() {
+    
+    x += MISSILE_SPEED;
+    
+    if (x > BOARD_WIDTH)
+        visible = false;
 }
 ```
 
@@ -215,248 +213,248 @@ Kelas ini merupaka kelas yang menampung semua objek dari permainan ini. Mungkin 
 Kelas Board memiliki beberapa variabel. Yang pertama, terdapat variabel `timer` yang berasal dari library `javax.swing.Timer` berfungsi untuk mengatur tampilan dari objek-objek yang bergerak agar tidak muncul secara bersamaan dengan lamanya berdasarkan variabel `DELAY`.
 
 ```JAVA
-    private Timer timer;
-    private final int DELAY = 15;
+private Timer timer;
+private final int DELAY = 15;
 ```
 
 Kemudian terdapat variabel `spaceship` yang mensifati dari kelas SpaceShip dan ada variabel `aliens` yang berbentuk array dari kelas Alien. Juga terdapat variabel boolean `ingame` yang menentukan apakah permainan sudah selesai atau masih berlangsung.
 
 ```JAVA
-    private SpaceShip spaceship;
-    private List<Alien> aliens;
-    private boolean ingame;
+private SpaceShip spaceship;
+private List<Alien> aliens;
+private boolean ingame;
 ```
 
 Di kelas ini juga terdapat variabel yang nilainya digunakan untuk menentukan posisi dari pesawat luar angkasa ketika permainan baru dimulai, yakni variabel `ICRAFT_X` serta `ICRAFT_Y`. Juga terdapat variabel yang nilainya berfungsi dalam penentuan luas dari papan permainan, yaitu variabel `B_WIDTH` dan `B_HEIGHT`.
 
 ```JAVA
-    private final int ICRAFT_X = 40;
-    private final int ICRAFT_Y = 60;
-    private final int B_WIDTH = 400;
-    private final int B_HEIGHT = 300;
+private final int ICRAFT_X = 40;
+private final int ICRAFT_Y = 60;
+private final int B_WIDTH = 400;
+private final int B_HEIGHT = 300;
 ```
 
-Terakhir dalam pembahasan variabel, ada variabel `pos` yang berbentuk array berguna untuk memasukkan koordinat X dan Y dari posisi awal dari masing-masing alien.
+Terakhir dalam pembahasan variabel, ada variabel `pos` yang berbentuk array berguna untuk memasukkan koordinat X dan Y mengenai posisi awal dari masing-masing alien.
 
 ```JAVA
-    private final int[][] pos = {
-        {2380, 29}, {2500, 59}, {1380, 89},
-        {780, 109}, {580, 139}, {680, 239},
-        {790, 259}, {760, 50}, {790, 150},
-        {980, 209}, {560, 45}, {510, 70},
-        {930, 159}, {590, 80}, {530, 60},
-        {940, 59}, {990, 30}, {920, 200},
-        {900, 259}, {660, 50}, {540, 90},
-        {810, 220}, {860, 20}, {740, 180},
-        {820, 128}, {490, 170}, {700, 30}
-    };
+private final int[][] pos = {
+    {2380, 29}, {2500, 59}, {1380, 89},
+    {780, 109}, {580, 139}, {680, 239},
+    {790, 259}, {760, 50}, {790, 150},
+    {980, 209}, {560, 45}, {510, 70},
+    {930, 159}, {590, 80}, {530, 60},
+    {940, 59}, {990, 30}, {920, 200},
+    {900, 259}, {660, 50}, {540, 90},
+    {810, 220}, {860, 20}, {740, 180},
+    {820, 128}, {490, 170}, {700, 30}
+};
 ```
 
-Lalu, di kelas ini terdapat cukup banyak fungsi. Pertama terdapat constructor `Board`. Kemudian, ada fungsi `initBoard()` untuk membuat tampilan awal dari permainan, seperti luasnya, warna, serta letak dari pesawat luar angkasa dan instansi alien berdasarkan array dari variabel `pos` menggunakan fungsi `initAliens()`.
+Lalu, di kelas ini terdapat cukup banyak fungsi. Pertama terdapat constructor `Board`. Kemudian, ada fungsi `initBoard()` untuk membuat tampilan awal dari permainan, seperti luas tampilan layar, warna latar dari layar, serta letak dari pesawat luar angkasa dan instansi alien berdasarkan array dari variabel `pos` menggunakan fungsi `initAliens()`.
 
 ```JAVA
-    private void initBoard() {
+private void initBoard() {
 
-        addKeyListener(new TAdapter());
-        setFocusable(true);
-        setBackground(Color.BLACK);
-        ingame = true;
+    addKeyListener(new TAdapter());
+    setFocusable(true);
+    setBackground(Color.BLACK);
+    ingame = true;
 
-        setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
+    setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
 
-        spaceship = new SpaceShip(ICRAFT_X, ICRAFT_Y);
+    spaceship = new SpaceShip(ICRAFT_X, ICRAFT_Y);
 
-        initAliens();
+    initAliens();
 
-        timer = new Timer(DELAY, this);
-        timer.start();
+    timer = new Timer(DELAY, this);
+    timer.start();
+}
+
+public void initAliens() {
+    
+    aliens = new ArrayList<>();
+
+    for (int[] p : pos) {
+        aliens.add(new Alien(p[0], p[1]));
     }
-
-    public void initAliens() {
-        
-        aliens = new ArrayList<>();
-
-        for (int[] p : pos) {
-            aliens.add(new Alien(p[0], p[1]));
-        }
-    }
+}
 ```
 
-Kemudian terdapat fungsi `paintComponent` yang akan menggambarkan sprite game atau menampilkan pesan gameover. Tampilan ini bergantung pada variabel `ingame`.
+Kemudian, terdapat fungsi `paintComponent` yang akan menggambarkan sprite permainan atau menampilkan pesan gameover. Tampilan ini bergantung pada variabel `ingame`.
 
 ```JAVA
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+public void paintComponent(Graphics g) {
+    super.paintComponent(g);
 
-        if (ingame) {
+    if (ingame) {
 
-            drawObjects(g);
+        drawObjects(g);
 
-        } else {
+    } else {
 
-            drawGameOver(g);
-        }
-
-        Toolkit.getDefaultToolkit().sync();
+        drawGameOver(g);
     }
+
+    Toolkit.getDefaultToolkit().sync();
+}
 ```
 
-Fungsi selanjutnya adalah fungsi `drawObjects()` yang menampilkan perubahan sprite game di layar. Yang pertama menampilkan pesawat luar angkasa.
+Fungsi selanjutnya adalah fungsi `drawObjects()` yang menampilkan perubahan sprite permainan di layar. Yang pertama di dalam fungsi ini menampilkan pesawat luar angkasa.
 
 ```JAVA
-    private void drawObjects(Graphics g) {
+private void drawObjects(Graphics g) {
 
-        if (spaceship.isVisible()) {
-            g.drawImage(spaceship.getImage(), spaceship.getX(), spaceship.getY(),
-                    this);
-        }
-    ...
+    if (spaceship.isVisible()) {
+        g.drawImage(spaceship.getImage(), spaceship.getX(), spaceship.getY(),
+                this);
     }
+...
+}
 ```
 
 Juga ada loop yang menampilkan misil atau roket yang dikeluarkan dari pesawat luar angkasa. Karena setiap misil memiliki jangkauan yang terbatas, maka diperiksa menggunakan fungsi `isVisible()`.
 
 ```JAVA
-    List<Missile> ms = spaceship.getMissiles();
+List<Missile> ms = spaceship.getMissiles();
 
-    for (Missile missile : ms) {
-        if (missile.isVisible()) {
-            g.drawImage(missile.getImage(), missile.getX(), 
-                     missile.getY(), this);
-         }
-    }
+for (Missile missile : ms) {
+    if (missile.isVisible()) {
+        g.drawImage(missile.getImage(), missile.getX(), 
+                    missile.getY(), this);
+        }
+}
 ```
 
 Sama halnya dengan loop sebelumnya, di loop ini menampilkan semua alien. Adapun alien yang ditampilkan hanya yang belum dihancurkan dengan cara diperiksa menggunakan fungsi `isVisible()`.
 
 ```JAVA
-    for (Alien alien : aliens) {
-        if (alien.isVisible()) {
-            g.drawImage(alien.getImage(), alien.getX(), alien.getY(), this);
-        }
+for (Alien alien : aliens) {
+    if (alien.isVisible()) {
+        g.drawImage(alien.getImage(), alien.getX(), alien.getY(), this);
     }
+}
 ```
 
 Dan bagian terakhir dari fungsi `drawObjects()` ini menggambarkan jumlah alien yang masih tersisa di sisi kiri atas dari layar permainan.
 
 ```JAVA
-    g.setColor(Color.WHITE);
-    g.drawString("Aliens left: " + aliens.size(), 5, 15);
+g.setColor(Color.WHITE);
+g.drawString("Aliens left: " + aliens.size(), 5, 15);
 ```
 
-Kemudian terdapat fungsi `drawGameOver()` yang berguna untuk menampilkan pesan game over di tengah layar. Dan tampilan ini akan ditampilkan dalam akhir permainan, baik karena berhasil menghancurkan semua alien atau karena bertabrakan dengan salah satu dari pesawat tersebut.
+Lalu, terdapat fungsi `drawGameOver()` yang berguna untuk menampilkan pesan game over di tengah layar. Dan tampilan ini akan ditampilkan dalam akhir permainan, baik karena berhasil menghancurkan semua alien atau karena bertabrakan dengan salah satu dari alien tersebut.
 
 ```JAVA
-    private void drawGameOver(Graphics g) {
+private void drawGameOver(Graphics g) {
 
-        String msg = "Game Over";
-        Font small = new Font("Helvetica", Font.BOLD, 14);
-        FontMetrics fm = getFontMetrics(small);
+    String msg = "Game Over";
+    Font small = new Font("Helvetica", Font.BOLD, 14);
+    FontMetrics fm = getFontMetrics(small);
 
-        g.setColor(Color.white);
-        g.setFont(small);
-        g.drawString(msg, (B_WIDTH - fm.stringWidth(msg)) / 2,
-                B_HEIGHT / 2);
-    }
+    g.setColor(Color.white);
+    g.setFont(small);
+    g.drawString(msg, (B_WIDTH - fm.stringWidth(msg)) / 2,
+            B_HEIGHT / 2);
+}
 ```
 
-Selanjutnya, terdapat fungsi `actionPerformed` yang berisikan kejadian yang terjadi dalam permainan yang berbentuk fungsi, dengan masing-masing fungsi menguraikan tentang logika dalam permainannya.
-
-
-```JAVA
-    public void actionPerformed(ActionEvent e) {
-
-        inGame();
-
-        updateShip();
-        updateMissiles();
-        updateAliens();
-
-        checkCollisions();
-
-        repaint();
-    }
-```
-
-Contohnya ada fungsi `inGame()` yang menjelaskan bahwa apabila variabel `ingame` bernilai `false`, maka permainan dihentikan. Selain itu, ada fungsi `updateShip()` yang berguna untuk menjalankan fungsi `move()` apabila pesawat luar angkasa sudah diperiksa berdasarkan fungsi `isVisible()`.
+Selanjutnya, terdapat fungsi `actionPerformed` yang berisikan kejadian yang terjadi dalam permainan dengan terbagi menjadi beberapa fungsi, dengan masing-masing fungsi menguraikan tentang logika dalam permainannya.
 
 
 ```JAVA
-    private void inGame() {
+public void actionPerformed(ActionEvent e) {
 
-        if (!ingame) {
-            timer.stop();
-        }
+    inGame();
+
+    updateShip();
+    updateMissiles();
+    updateAliens();
+
+    checkCollisions();
+
+    repaint();
+}
+```
+
+Contohnya, ada fungsi `inGame()` yang menjelaskan bahwa apabila variabel `ingame` bernilai `false`, maka permainan dihentikan. Selain itu, ada fungsi `updateShip()` yang berguna untuk menjalankan fungsi `move()` apabila pesawat luar angkasa sudah diperiksa berdasarkan fungsi `isVisible()`.
+
+
+```JAVA
+private void inGame() {
+
+    if (!ingame) {
+        timer.stop();
     }
+}
 
-    private void updateShip() {
+private void updateShip() {
 
-        if (spaceship.isVisible()) {
-            
-            spaceship.move();
-        }
+    if (spaceship.isVisible()) {
+        
+        spaceship.move();
     }
+}
 ```
 
 Juga ada fungsi `updateMissiles()` yang menggerakkan semua misil atau roket yang masih ada. Lalu, fungsi `updateAliens()` yang bertujuan untuk memeriksa apakah masih ada objek alien yang tersisa pada array dari variabel `aliens`. Jika sudah tidak ada, maka permainan selesai. Apabila masih ada, maka array dari variabel `aliens` diperiksa untuk menghapus indeks dari alien yang telah dihancurkan.
 
 ```JAVA
-    private void updateAliens() {
+private void updateAliens() {
 
-        if (aliens.isEmpty()) {
+    if (aliens.isEmpty()) {
 
-            ingame = false;
-            return;
-        }
+        ingame = false;
+        return;
+    }
 
-        for (int i = 0; i < aliens.size(); i++) {
+    for (int i = 0; i < aliens.size(); i++) {
 
-            Alien a = aliens.get(i);
-            
-            if (a.isVisible()) {
-                a.move();
-            } else {
-                aliens.remove(i);
-            }
+        Alien a = aliens.get(i);
+        
+        if (a.isVisible()) {
+            a.move();
+        } else {
+            aliens.remove(i);
         }
     }
+}
 ```
 
 Lalu, fungsi `checkCollisions()` untuk memeriksa kemungkinan terjadinya tabrakan, baik antara pesawat luar angkasa dengan alien atau antara misil dengan alien. Pertama, diperiksa apakah objek pesawat luar angkasa bertabrakan dengan salah satu objek alien. Caranya dengan melihat bentuk rectangle dari setiap objek menggunakan fungsi `getBounds()`, kemudian diperiksa apakah terjadi singgungan dengan objek alien menggunakan fungsi `intersects()`. Hal ini juga berlaku pada tabrakan alien dengan misil yang mengakibatkan hancurnya alien tersebut.
 
 ```JAVA
-    public void checkCollisions() {
+public void checkCollisions() {
 
-        Rectangle r3 = spaceship.getBounds();
+    Rectangle r3 = spaceship.getBounds();
+
+    for (Alien alien : aliens) {
+        
+        Rectangle r2 = alien.getBounds();
+
+        if (r3.intersects(r2)) {
+            
+            spaceship.setVisible(false);
+            alien.setVisible(false);
+            ingame = false;
+        }
+    }
+
+    List<Missile> ms = spaceship.getMissiles();
+
+    for (Missile m : ms) {
+
+        Rectangle r1 = m.getBounds();
 
         for (Alien alien : aliens) {
-            
+
             Rectangle r2 = alien.getBounds();
 
-            if (r3.intersects(r2)) {
+            if (r1.intersects(r2)) {
                 
-                spaceship.setVisible(false);
+                m.setVisible(false);
                 alien.setVisible(false);
-                ingame = false;
-            }
-        }
-
-        List<Missile> ms = spaceship.getMissiles();
-
-        for (Missile m : ms) {
-
-            Rectangle r1 = m.getBounds();
-
-            for (Alien alien : aliens) {
-
-                Rectangle r2 = alien.getBounds();
-
-                if (r1.intersects(r2)) {
-                    
-                    m.setVisible(false);
-                    alien.setVisible(false);
-                }
             }
         }
     }
+}
 ```
