@@ -164,3 +164,32 @@ public void move() {
     x -= 1;
 }
 ```
+
+### Kelas `Missile`
+Kelas ini merupakan kelas turunan dari kelas sprite yang digunakan sebagai misil atau roket yang diluncurkan kapal luar angkasa.
+
+Pada kelas ini memiliki properti dengan access modifier `private` dan keyword `final` yang bermakna hanya dapat diakses di kelas ini saja dan nilai yang dimasukkan hanya bisa sebanyak satu kali. Propertinya adalah `BOARD_WIDTH`sebagai flag dan `MISSILE_SPEED` yang digunakan sebagai kecepatan objek.
+
+```JAVA
+    private final int BOARD_WIDTH = 390;
+    private final int MISSILE_SPEED = 2;
+```
+
+Sama seperti kelas-kelas sebelumnya, kelas ini memiliki constructor  yang memanggil constructor dari kelas parent-nya. Kemudian, cunstructor ini ditambah dengan fungsi `initMissile()` untuk melakukan render gambar dan dimensi dari objek tersebut.
+
+```JAVA
+   public Missile(int x, int y) {
+        super(x, y);
+
+        initMissile();
+    }
+    
+    private void initMissile() {
+        
+        loadImage("src/resources/missile.png");
+        getImageDimensions();        
+    }
+}
+```
+
+Lalu terdapat fungsi `move()` yang berguna untuk memberikan akses bagi objek dalam bergerak. Berbeda dengan fungsi `move()` yang ada di Class `Spaceship`, fungsi ini bergerak secara konstan berdasarkan `MISSILE_SPEED` dan objek akan dihancurkan apabila telah melewati batas dari `BOARD_WIDTH`.
