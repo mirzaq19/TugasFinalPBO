@@ -8,6 +8,7 @@ Ada beberapa kelas yang digunakan dalam program ini, diantaranya yaitu:
 3. Alien
 4. Missile
 5. Board
+6. CollisionEx
 
 ### Kelas `Sprite`
 Kelas ini merupakan kelas yang digunakan sebagai parent dari kelas Spaceship,Alien, dan Missile. Dalam Kelas Sprite terdapat beberapa fungsi umum yang akan digunakan pada kelas anaknya. 
