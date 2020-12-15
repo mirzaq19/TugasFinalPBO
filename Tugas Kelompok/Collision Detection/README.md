@@ -486,13 +486,11 @@ private void initUI() {
 Semua kelas yang dibutuhkan sudah lengkap dan ketika dijalankan hasilnya akan seperti ini :
 ![jlnProg1](https://user-images.githubusercontent.com/65794806/102166870-b87ff000-3ebf-11eb-98f5-b3e68b670677.png)
 
-
 Pada hasil program tersebut dapat dilihat titlenya adalah "Alien Shooter" serta Pesawat pemain telah di posisikan di atas kanan tapi tidak di ujung. Selain itu terdapat info "Alien left: 27" yang menandakan banyakanya musuh/alien yang harus di tembak serta kemunculan alien dari kanan board.
 
 
 
 ![jlnProg2](https://user-images.githubusercontent.com/65794806/102167166-6c817b00-3ec0-11eb-8869-eda03d7d8913.png)
-
 
 Pada gambar diatas, jika pemain menekan spasi, maka program akan mengeksekusi fungsi 'fire()' sehingga pesawat mengeluarkan missile yang mana missile akan bergerak dari titik tembak lurus ke kanan.
 
