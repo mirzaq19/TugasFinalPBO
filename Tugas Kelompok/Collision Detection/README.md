@@ -485,3 +485,8 @@ private void initUI() {
 ## Hasil Program
 Semua kelas yang dibutuhkan sudah lengkap dan ketika dijalankan hasilnya akan seperti ini :
 
+
+## Class Diagram
+Kelas-kelas pada program saling berhubungan dengan gambaran sebagai berikut:
+
+ 
