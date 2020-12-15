@@ -488,5 +488,5 @@ Semua kelas yang dibutuhkan sudah lengkap dan ketika dijalankan hasilnya akan se
 
 ## Class Diagram
 Kelas-kelas pada program saling berhubungan dengan gambaran sebagai berikut:
-
+![SSclassDiagram](https://user-images.githubusercontent.com/65794806/102165734-3216de80-3ebe-11eb-8cfe-b290f7aeca58.png)
  
