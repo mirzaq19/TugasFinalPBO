@@ -157,3 +157,8 @@ Penjelasan singkat mengenai kegunaan dari setiap fungsi,
 | `mouseReleased()` | **MouseListener** | Berfungsi saat tombol *mouse* dilepaskan pada sebuah komponen, maka kapal luar angkasa akan bergerak |
 | `mouseEntered()` | **MouseListener** | Berfungsi saat *mouse* memasuki komponen, maka kapal luar angkasa akan bergerak |
 | `mouseExited()` | **MouseListener** | Berfungsi saat *mouse* keluar dari komponen, maka kapal luar angkasa akan bergerak |
+
+# Running Program
+Lalu untuk tampilan saat program dijalankan bisa dilihat melalui link yang ada dibawah ini:
+
+**Video Running Program** : [Klik Link ini](https://youtu.be/0NyuwcLOOHk "Video Running Program")
