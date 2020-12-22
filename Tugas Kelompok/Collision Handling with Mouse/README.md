@@ -162,3 +162,7 @@ Penjelasan singkat mengenai kegunaan dari setiap fungsi,
 Lalu untuk tampilan saat program dijalankan bisa dilihat melalui link yang ada dibawah ini:
 
 **Video Running Program** : [Klik Link ini](https://youtu.be/0NyuwcLOOHk "Video Running Program")
+
+#Class Diagram
+Untuk hubungan antar class sendiri dapat dilihat pada gambar berikut:
+![Untitled](https://user-images.githubusercontent.com/65794806/102834443-a1448380-4426-11eb-8ec8-62fba76d2c18.png)
