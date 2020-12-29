@@ -22,3 +22,6 @@ public GameObject(int x, int y, int width, int height, Color color) {
   this.color = color;
 }
 ```
+## Kelas `Class Diagram`
+Hubungan antar Class dapat dilihat pada diagram berikut:
+![Untitled](https://user-images.githubusercontent.com/65794806/103263485-9cf60880-49da-11eb-91d7-a90dfd7fd876.png)
