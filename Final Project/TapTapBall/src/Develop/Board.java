@@ -22,7 +22,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	private int playerX = 310;
 	private int ballposX = 120;
 	private int ballposY = 350;
-	private Balls ball;
+	private Ball ball;
 	private Paddle paddle;
 	
 
@@ -31,7 +31,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
         addMouseMotionListener((MouseMotionListener) this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
-        ball = new Balls(ballposX,ballposY,20,20,Color.yellow);
+        ball = new Ball(ballposX,ballposY,20,20,Color.yellow);
         paddle = new Paddle(playerX,550,100,8,Color.green);
         timer=new Timer(delay,this);
 		timer.start();
