@@ -57,9 +57,4 @@ public class GameObject {
 	public void setColor(Color color) {
 		this.color = color;
 	}
-	
-	
-	
-	
-
 }
