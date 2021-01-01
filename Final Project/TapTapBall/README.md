@@ -162,6 +162,11 @@ public void move(MouseEvent e) {
 
 Juga terdapat fungsi **draw()** yang kegunaannya sama seperti di subkelas yang lain, yakni menampilkan warna, posisi, serta luas dari *paddle*.
 
+## Kelas `Board`
+
+## `Class Diagram`
+Hubungan antar Class dapat dilihat pada diagram berikut:
+![Untitled](https://user-images.githubusercontent.com/65794806/103263485-9cf60880-49da-11eb-91d7-a90dfd7fd876.png)
 
 Referensi:
 1. [Github](https://github.com/awaismirza/Java-Game-Brick-Breaker)
