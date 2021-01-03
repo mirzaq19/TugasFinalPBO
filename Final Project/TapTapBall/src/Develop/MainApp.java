@@ -7,7 +7,7 @@ public class MainApp {
 		JFrame window = new JFrame("Tap Tap Ball !!");
 		Game game = new Game();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setResizable(true);
+		window.setResizable(false);
 		window.setVisible(true);
 		window.add(game);
 		window.pack();

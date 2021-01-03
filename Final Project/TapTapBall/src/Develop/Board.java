@@ -162,8 +162,8 @@ public class Board extends GuiPanel {
 			if (diff == "easy") {
 				COLS = DifficultLevel.eCOLS;
 				ROWS = DifficultLevel.eROWS;
-				ball.setBallXdir(-2);
-				ball.setBallYdir(-4);
+				ball.setBallXdir(-3);
+				ball.setBallYdir(-5);
 			} else if (diff == "medium") {
 				COLS = DifficultLevel.mCOLS;
 				ROWS = DifficultLevel.mROWS;
