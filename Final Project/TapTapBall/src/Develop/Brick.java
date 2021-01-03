@@ -5,11 +5,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class Brick extends GameObject{
-	private int value;
+	protected int value;
 	
-	public Brick(int x, int y, int width, int height,int value, Color color) {
-		super(x, y, width, height, color);
-		this.value = value;
+	public Brick(int x, int y, int width, int height) {
+		super(x, y, width, height);
 	}
 
 	public void draw(Graphics2D g) {
@@ -27,5 +26,10 @@ public class Brick extends GameObject{
 
 	public void setValue(int value) {
 		this.value = value;
+		if(value == 1) {
+			this.color = Color.white;
+		}else if(value == 2) {
+			this.color = Color.red;
+		}
 	}
 }

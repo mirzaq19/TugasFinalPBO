@@ -9,12 +9,14 @@ public class GameObject {
 	protected int height;
 	protected Color color;
 	
-	public GameObject(int x, int y, int width, int height, Color color) {
-		super();
+	public GameObject(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+	}
+	public GameObject(int x, int y, int width, int height, Color color) {
+		this(x,y,width,height);
 		this.color = color;
 	}
 
@@ -57,4 +59,5 @@ public class GameObject {
 	public void setColor(Color color) {
 		this.color = color;
 	}
+
 }

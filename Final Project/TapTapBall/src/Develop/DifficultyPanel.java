@@ -10,7 +10,6 @@ public class DifficultyPanel extends GuiPanel{
 	private String title = "Select Difficult";
 	private int buttonWidth = 220;
 	private int a = 280;
-	public static boolean diff = false;
 	public GuiButton easyButton;
 	public GuiButton mediumButton;
 	public GuiButton hardButton;
@@ -28,13 +27,21 @@ public class DifficultyPanel extends GuiPanel{
 		});
 		add(backButton);
 		easyButton.addActionListener((ActionEvent e)->{
-			// DifficultLevel.setCurrentLevel("easy");
-			// GuiScreen.getInstance().setCurrentPanel("Board");
+			Board.setDiff("easy");
+			GuiScreen.getInstance().setCurrentPanel("Board");
 		});
 		easyButton.setText("Easy");
 		add(easyButton);
+		mediumButton.addActionListener((ActionEvent e)->{
+			Board.setDiff("medium");
+			GuiScreen.getInstance().setCurrentPanel("Board");
+		});
 		mediumButton.setText("Medium");
 		add(mediumButton);
+		hardButton.addActionListener((ActionEvent e)->{
+			Board.setDiff("hard");
+			GuiScreen.getInstance().setCurrentPanel("Board");
+		});
 		hardButton.setText("Hard");
 		add(hardButton);
 	}

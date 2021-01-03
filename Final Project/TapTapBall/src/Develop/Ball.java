@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Ball extends GameObject{
-	private int ballXdir = -3;
-	private int ballYdir = -3;
+	private int ballXdir;
+	private int ballYdir;
 	
 
 	public Ball(int x, int y, int width, int height, Color color) {
@@ -16,7 +16,7 @@ public class Ball extends GameObject{
 		x+=ballXdir;
 		y+=ballYdir;
 		
-		if(x<0 || x > 665) {
+		if(x<0 || x > 678) {
 			ballXdir = -ballXdir;
 		}
 		if(y<0) {
@@ -53,9 +53,17 @@ public class Ball extends GameObject{
 		this.ballYdir = ballYdir;
 	}
 	
-	public void defaultSpeed() {
+	public void easySpeed() {
+		this.ballXdir = -2;
+		this.ballYdir = -4;
+	}
+	public void mediumSpeed() {
 		this.ballXdir = -3;
-		this.ballYdir = -3;
+		this.ballYdir = -5;
+	}
+	public void hardSpeed() {
+		this.ballXdir = -4;
+		this.ballYdir = -6;
 	}
 	
 }

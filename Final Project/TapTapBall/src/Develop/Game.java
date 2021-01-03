@@ -38,7 +38,8 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 		setBackground(Color.black);
 		screen = GuiScreen.getInstance();
 		screen.add("Menu", new MainMenuPanel());
-        screen.add("Difficulty", new DifficultyPanel());
+		screen.add("Difficulty", new DifficultyPanel());
+		screen.add("Board",new Board());
         screen.add("Credit", new CreditPanel());
 		screen.setCurrentPanel("Menu");
 		timer = new Timer(DELAY, this);
@@ -68,7 +69,6 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("Ok");
 		screen.keyPressed(e);
 	}
 

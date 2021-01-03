@@ -16,8 +16,8 @@ public class Paddle extends GameObject{
 			x=10;
 		}
 		
-		if(x>575) {
-			x=575;
+		if(x>590) {
+			x=590;
 		}
 	}
 	
