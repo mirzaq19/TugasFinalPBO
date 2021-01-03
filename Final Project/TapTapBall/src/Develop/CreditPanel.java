@@ -15,7 +15,7 @@ public class CreditPanel extends GuiPanel {
     
     public CreditPanel(){
         super();
-        backButton = new GuiButton(0, a + 200, 100, 60);
+        backButton = new GuiButton(25, a + 200, 100, 60);
         backButton.setText("Back");
 		backButton.addActionListener((ActionEvent e) -> {
 			GuiScreen.getInstance().setCurrentPanel("Menu");
