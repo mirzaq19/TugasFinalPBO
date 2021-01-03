@@ -18,10 +18,10 @@ public class DifficultyPanel extends GuiPanel{
 	
 	public DifficultyPanel() {
 		super();
-		easyButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a, buttonWidth, 60);
-		mediumButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 90, buttonWidth, 60);
-		hardButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 180, buttonWidth, 60);
-		backButton = new GuiButton(0, a + 200, 100, 60);
+		easyButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a - 60, buttonWidth, 60);
+		mediumButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 30, buttonWidth, 60);
+		hardButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 120, buttonWidth, 60);
+		backButton = new GuiButton(25, a + 200, 100, 60);
 		backButton.setText("Back");
 		backButton.addActionListener((ActionEvent e) -> {
 			GuiScreen.getInstance().setCurrentPanel("Menu");

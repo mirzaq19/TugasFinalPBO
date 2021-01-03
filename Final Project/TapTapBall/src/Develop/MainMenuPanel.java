@@ -17,10 +17,10 @@ public class MainMenuPanel extends GuiPanel {
 
 	public MainMenuPanel() {
 		super();
-		resumeButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a, buttonWidth, 60);
-		playButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 90, buttonWidth, 60);
-		creditButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 180, buttonWidth, 60);
-		quitButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 270, buttonWidth, 60);
+		resumeButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a - 30, buttonWidth, 60);
+		playButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 60, buttonWidth, 60);
+		creditButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 150, buttonWidth, 60);
+		quitButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 240, buttonWidth, 60);
 		resumeButton.setText("Resume");
 		add(resumeButton);
 		playButton.addActionListener((ActionEvent e) -> {
