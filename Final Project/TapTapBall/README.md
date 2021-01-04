@@ -1,28 +1,46 @@
 # Tentang TapTapBall
-TapTapGame merupakan sebuah permainan yang bertujuan untuk menghancurkan objek lain seperti batu bata dengan menggunakan bola. Pada permainan ini, pemain akan menggunakan sebuah objek *paddle* yang berfungsi untuk memantulkan bola agar tidak jatuh ke bawah.
+TapTapGame merupakan sebuah permainan yang bertujuan untuk menghancurkan objek lain seperti batu bata dengan menggunakan bola. Pada permainan ini, pemain akan menggunakan sebuah objek *paddle* yang berfungsi untuk memantulkan bola agar tidak jatuh ke bawah. 
 
-Kemudian ada beberapa kelas yang digunakan untuk membuat permainan ini :
-1. GameObject
-2. Paddle
-3. Balls
-4. Bricks
-5. Board
-6. MainApp
+Permainan ini memiliki tiga level yang terbagi menjadi *easy*, *medium*, dan *hard* dengan masing-masing level terdapat *brick* yang memiliki tingkat kesulitan yang berbda.
+
+Kemudian ada beberapa kelas yang digunakan untuk membuat permainan ini dengan terbagi menjadi dua kelompok:
+
+* *Class* untuk fitur di permainan
+  1. GameObject
+  2. Ball
+  3. Brick
+  4. WhiteBrick
+  5. RedBrick
+  6. BlueBrick
+  7. Paddle
+  8. DifficultLevel
+  9. Board
+  10. MainApp
+
+* *Class* untuk GUI
+  1. MainMenuPanel
+  2. GuiScreen
+  3. GuiPanel
+  4. GuiButton
+  5. DifficultyPanel
+  6. CreditPanel 
 
 ## Kelas `GameObject`
-Kelas ini merupakan kelas parent dari *subclass* `Balls`, `Paddle`, dan `Bricks` yang berisi fungsi dasar dari objeknya, yakni koordinat, tinggi, lebar, dan warna.
+Kelas ini merupakan kelas parent dari *subclass* `Ball`, `Paddle`, dan `Brick` yang berisi fungsi dasar dari objeknya, yakni koordinat, tinggi, lebar, dan warna.
 
 ```JAVA
-public GameObject(int x, int y, int width, int height, Color color) {
-  super();
+public GameObject(int x, int y, int width, int height) {
   this.x = x;
   this.y = y;
   this.width = width;
   this.height = height;
+}
+public GameObject(int x, int y, int width, int height, Color color) {
+  this(x,y,width,height);
   this.color = color;
 }
 ```
-Di atas merupakan *constructor* dari `GameObject` yang nantinya akan diterapkan di objek-objek yang lain. Lalu, di setiap variabel yang berada di dalam *constructor* dilakukan *generate* **Setter** dan **Getter**.
+Di atas merupakan dua *constructor* dari `GameObject` yang nantinya akan diterapkan di objek-objek yang lain. Perbedaan dari kedua *constructor* tersebut adalah penggunaan variabel **color**. Lalu, di setiap variabel yang berada di dalam *constructor* dilakukan *generate* *Setter* dan *Getter*.
 
 ```JAVA
 public int getX() {
@@ -66,17 +84,49 @@ public void setColor(Color color) {
 }
 ```
 
-## Kelas `Balls`
+## Kelas `Ball`
 Kelas ini merupakan anak dari kelas `GameObject` yang digunakan untuk mendefinisikan sifat dasar bola dalam permainan.
 
-Terdapat inisiasi variabel **ballXdir** dan **ballYdir** yang berfungsi untuk mengatur kecepatan dan arah bola pada awal permainan. Untuk variabel y apabila kecepatan bernilai negatif, maka bola akan mengarah ke atas. Dan begitu juga sebaliknya, apabila kecepatan di variabel y bernilai positif, maka bola akan bergerak ke bawah. 
-
-Sedangkan di variabel x berlaku pada umumnya. jika positif, maka bola akan bergerak ke kanan dan berlaku kebalikannya.
-
+Terdapat inisiasi beserta pembuatan *Setter* dan *Getter* pada variabel **ballXdir** dan **ballYdir** yang berfungsi untuk mengatur kecepatan dan arah bola pada awal permainan. 
 
 ```JAVA
-private int ballXdir = -6;
-private int ballYdir = -6;
+private int ballXdir;
+private int ballYdir;
+
+public int getBallXdir() {
+  return ballXdir;
+}
+
+public void setBallXdir(int ballXdir) {
+  this.ballXdir = ballXdir;
+}
+
+public int getBallYdir() {
+  return ballYdir;
+}
+
+public void setBallYdir(int ballYdir) {
+  this.ballYdir = ballYdir;
+}
+```
+
+Kemudian, terdapat fungsi **easySpeed()**, **mediumSpeed()**, dan **hardSpeed()** yang mengatur kecepatan bola pada setiap tingkat kesulitan di permainan. 
+
+Adapun untuk variabel y apabila kecepatan bernilai negatif, maka bola akan mengarah ke atas. Dan begitu juga sebaliknya, apabila kecepatan di variabel y bernilai positif, maka bola akan bergerak ke bawah. Sedangkan di variabel x berlaku pada umumnya. jika positif, maka bola akan bergerak ke kanan dan berlaku kebalikannya.
+
+```JAVA
+public void easySpeed() {
+  this.ballXdir = -2;
+  this.ballYdir = -4;
+}
+public void mediumSpeed() {
+  this.ballXdir = -3;
+  this.ballYdir = -5;
+}
+public void hardSpeed() {
+  this.ballXdir = -4;
+  this.ballYdir = -6;
+}
 ```
 
 Kemudian, ada *constructor* di kelas ini yang memanggil *constructor* dari kelas utamanya, yakni `GameObject`. Selanjutnya, terdapat fungsi **move()** yang berguna untuk mengatur perpindahan atau perubahan gerak serta arah dari bola. 
@@ -84,11 +134,15 @@ Kemudian, ada *constructor* di kelas ini yang memanggil *constructor* dari kelas
 Terdapat variabel x dan y yang mengatur perpindahan dari bola. Kemudian, ada dua percabangan untuk variabel x dan y juga, yang mana apabila bola mengenai di bagian atas, kanan, ataupun kiri *frame*, maka arah bola diubah ke arah yang berlawanan atau bisa dikatakan bola akan memantul.
 
 ```JAVA
+public Ball(int x, int y, int width, int height, Color color) {
+  super(x, y, width, height, color);
+}
+
 public void move() {
   x+=ballXdir;
   y+=ballYdir;
   
-  if(x<0 || x > 665) {
+  if(x<0 || x > 678) {
     ballXdir = -ballXdir;
   }
   if(y<0) {
@@ -118,19 +172,43 @@ public void inverseDirY() {
 }
 ```
 
-## Kelas `Bricks`
+## Kelas `Brick`
 Kelas ini berfungsi untuk menampilkan *brick* atau semacam batu bata yang nantinya akan dihancurkan pemain menggunakan bola dalam permainan.
 
 Terdapat *constructor* yang sama seperti *constructor* pada kelas utamanya. Lalu, ada fungsi **draw()** yang kegunaannya untuk mengatur warna, posisi, panjang, serta lebar dari *brick*.
 
 ```JAVA
-public Bricks(int x, int y, int width, int height, Color color) {
-  super(x, y, width, height, color);
+public Brick(int x, int y, int width, int height) {
+  super(x, y, width, height);
 }
 
-public void draw(Graphics g) {
+public void draw(Graphics2D g) {
   g.setColor(color);
   g.fillRect(x, y, width, height);
+  g.setStroke(new BasicStroke(3));
+  g.setColor(Color.black);
+  g.drawRect(x, y, width, height);
+}	
+```
+
+Selanjutnya, terdapat penggunaan variabel **value** yang berguna untuk mengatur beberapa jenis *brick* yang memiliki tingkat kekuatan yang berbeda.
+
+*Brick* yang berwarna putih tingkat kekuatannya sebesar satu, warna merah sebesar dua, dan warna biru sebesar tiga. Sehingga, kelas ini memiliki *subclass* `WhiteBrick`, `RedBrick` dan `BlueBrick`.
+
+```JAVA
+protected int value;
+
+public int getValue() {
+  return value;
+}
+
+public void setValue(int value) {
+  this.value = value;
+  if(value == 1) {
+    this.color = Color.white;
+  }else if(value == 2) {
+    this.color = Color.red;
+  }
 }
 ```
 
@@ -154,13 +232,20 @@ public void move(MouseEvent e) {
     x=10;
   }
   
-  if(x>575) {
-    x=575;
+  if(x>590) {
+    x=590;
   }
 }
 ```
 
 Juga terdapat fungsi **draw()** yang kegunaannya sama seperti di subkelas yang lain, yakni menampilkan warna, posisi, serta luas dari *paddle*.
+
+```JAVA
+public void draw(Graphics g) {
+  g.setColor(color);
+  g.fillRect(x, y, width, height);
+}
+```
 
 ## Kelas `Board`
 
