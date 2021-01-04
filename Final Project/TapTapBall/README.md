@@ -366,17 +366,21 @@ public void initBricks(int row, int col) {
 ```
 ## Tampilan Game
 
-Tampilan awal
-![Untitled](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/menucredit.gif)
+**Tampilan Awal**
 
-Tampilan Easy Level
-![Untitled](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/easylevel.gif)
+![MainMenu](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/menucredit.gif)
 
-Tampilan Medium Level
-![Untitled](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/mediumlevel.gif)
+**Tampilan Easy Level**
 
-Tampilan Hard Level
-![Untitled](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/hardLevel.gif)
+![Easy](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/easylevel.gif)
+
+**Tampilan Medium Level**
+
+![Medium](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/mediumlevel.gif)
+
+**Tampilan Hard Level**
+
+![Hard](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/hardLevel.gif)
 
 ## `Class Diagram`
 Hubungan antar Class dapat dilihat pada diagram berikut:
