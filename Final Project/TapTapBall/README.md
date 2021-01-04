@@ -1,7 +1,7 @@
 # Tentang TapTapBall
 TapTapGame merupakan sebuah permainan yang bertujuan untuk menghancurkan objek lain seperti batu bata dengan menggunakan bola. Pada permainan ini, pemain akan menggunakan sebuah objek *paddle* yang berfungsi untuk memantulkan bola agar tidak jatuh ke bawah. 
 
-Permainan ini memiliki tiga level yang terbagi menjadi *easy*, *medium*, dan *hard* dengan masing-masing level terdapat *brick* yang memiliki tingkat kesulitan yang berbda.
+Permainan ini memiliki tiga level yang terbagi menjadi *easy*, *medium*, dan *hard* dengan masing-masing level terdapat *brick* yang memiliki tingkat kesulitan yang berbeda.
 
 Kemudian ada beberapa kelas yang digunakan untuk membuat permainan ini dengan terbagi menjadi dua kelompok:
 
@@ -310,6 +310,73 @@ public static int hROWS = 5;
 ```
 
 ## Kelas `Board`
+Di kelas Board ini adalah tempat di mana permainan berlangsung dan mengatur posisi dari setiap objek dalam game pada awal permainan. Lalu objek yang akan dibuat dalam permainan konfigurasi nya akan berbeda bergantung pada tingkat kesulitan yang di pilih yaitu **Easy**, **Medium**, ataupun **Hard**
+
+Pada Cnstructor di kelas ini berisi Inisiasi objek bola dan paddle, untuk objek bola posisi koordinat x akan ditentukan secara random oleh sistem.
+```JAVA
+public Board() {
+  ballposX = 150 + randomNumbers.nextInt(100);
+  ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
+  paddle = new Paddle(playerX, 580, 100, 8, Color.green);
+
+}
+```
+
+Berikutnya ada fungsi untuk menginisiasi objek brick atau batu bata yang akan dibuat berdasarkan level kesulitan yang dipilih. Pada fungsi ini diterapkan konsep polymorphism pada objek brick.
+```JAVA
+public void initBricks(int row, int col) {
+  bricks = new ArrayList<>();
+  int randomBrick=0;
+  if (diff == "easy") {
+    brickWidth = 540 / col;
+    brickHeight = 150 / row;
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < col; j++) {
+        bricks.add(new WhiteBrick(j * brickWidth + 80, i * brickHeight + 50, brickWidth, brickHeight));
+      }
+    }
+  } else if (diff == "medium") {
+    brickWidth = 560 / col;
+    brickHeight = 180 / row;
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < col; j++) {
+        randomBrick = randomNumbers.nextInt(2);
+        if(randomBrick == 0)
+          bricks.add(new WhiteBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+        else if(randomBrick == 1)
+          bricks.add(new RedBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+      }
+    }
+  } else if (diff == "hard") {
+    brickWidth = 560 / col;
+    brickHeight = 200 / row;
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < col; j++) {
+        randomBrick = randomNumbers.nextInt(3);
+        if(randomBrick == 0)
+          bricks.add(new WhiteBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+        else if(randomBrick == 1)
+          bricks.add(new RedBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+        else if(randomBrick == 2)
+          bricks.add(new BlueBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+      }
+    }
+  }
+}
+```
+## Tampilan Game
+
+Tampilan awal
+![Untitled](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/menucredit.gif)
+
+Tampilan Easy Level
+![Untitled](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/easylevel.gif)
+
+Tampilan Medium Level
+![Untitled](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/mediumlevel.gif)
+
+Tampilan Hard Level
+![Untitled](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/hardLevel.gif)
 
 ## `Class Diagram`
 Hubungan antar Class dapat dilihat pada diagram berikut:
