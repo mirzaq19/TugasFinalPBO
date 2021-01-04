@@ -212,6 +212,54 @@ public void setValue(int value) {
 }
 ```
 
+## Kelas `WhiteBrick`
+Kelas ini merupakan *subclass* dari `Brick` yang berisikan *constructor* dan fungsi **defaultValue()** untuk mengatur warna dan tingkat kesulitan dari *brick*.
+
+```JAVA
+public WhiteBrick(int x, int y, int width, int height) {
+  super(x,y,width,height);
+  this.color = Color.white;
+  this.value = 1;
+}
+
+public void defaultValue() {
+  this.value = 1;
+  this.color = Color.white;
+}
+```
+
+## Kelas `RedBrick`
+Sama seperti kelas `WhiteBrick`, hanya berbeda di warna dan tingkat kesulitan.
+
+```JAVA
+public RedBrick(int x, int y, int width, int height) {
+  super(x,y,width,height);
+  this.color = Color.red;
+  this.value = 2;
+}
+
+public void defaultValue() {
+  this.value = 2;
+  this.color = Color.red;
+}
+```
+
+## Kelas `BlueBrick`
+Sama seperti kelas `WhiteBrick`, hanya berbeda di warna dan tingkat kesulitan.
+
+```JAVA
+public BlueBrick(int x, int y, int width, int height) {
+  super(x,y,width,height);
+  this.color = Color.blue;
+  this.value = 3;
+}
+
+public void defaultValue() {
+  this.value = 3;
+  this.color = Color.blue;
+}
+```
+
 ## Kelas `Paddle`
 Kelas ini digunakan untuk inisiasi dari *paddle* yang nantinya berfungsi sebagai pencegah jatuhnya bola dalam permainan dengan cara memantulkan bola. 
 
@@ -245,6 +293,20 @@ public void draw(Graphics g) {
   g.setColor(color);
   g.fillRect(x, y, width, height);
 }
+```
+
+## Kelas `DifficultLevel`
+Di kelas ini mengatur jumlah dari *brick* di setiap level. terdapat variabel **eCOLS** dan **eROWS** yang bermakna jumlah kolom serta baris di level *easy*. Dan sama halnya dengan itu, variabel **mCOLS**, **mROWS**, **hCOLS**, serta **hROWS** untuk level *medium* dan *hard*.
+
+```JAVA
+public static int eCOLS = 7;
+public static int eROWS = 3;
+
+public static int mCOLS = 9;
+public static int mROWS = 4;
+    
+public static int hCOLS = 10;
+public static int hROWS = 5;
 ```
 
 ## Kelas `Board`
