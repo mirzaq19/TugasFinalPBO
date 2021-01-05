@@ -384,7 +384,8 @@ public void initBricks(int row, int col) {
 
 ## `Class Diagram`
 Hubungan antar Class dapat dilihat pada diagram berikut:
-![Untitled](https://user-images.githubusercontent.com/65794806/103263485-9cf60880-49da-11eb-91d7-a90dfd7fd876.png)
+
+![Main](https://user-images.githubusercontent.com/40484843/103629414-d8f91280-4f72-11eb-8928-c8e26b5a928b.jpg)
 
 Referensi:
 1. [Github](https://github.com/awaismirza/Java-Game-Brick-Breaker)
