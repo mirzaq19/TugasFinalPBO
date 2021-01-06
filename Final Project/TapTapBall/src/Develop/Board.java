@@ -23,6 +23,7 @@ public class Board extends GuiPanel {
 	private int ROWS;
 	private Ball ball;
 	private Paddle paddle;
+	private ScoreManager scoreManager;
 	private List<Brick> bricks;
 	private int brickWidth;
 	private int brickHeight;
@@ -32,7 +33,8 @@ public class Board extends GuiPanel {
 		ballposX = 150 + randomNumbers.nextInt(100);
 		ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
 		paddle = new Paddle(playerX, 580, 100, 8, Color.green);
-
+		scoreManager = new ScoreManager();
+		scoreManager.loadScore();
 	}
 
 	public void initBricks(int row, int col) {
@@ -122,6 +124,7 @@ public class Board extends GuiPanel {
 			g.setColor(Color.RED);
 			g.setFont(new Font("serif", Font.BOLD, 20));
 			g.drawString("Press (Enter) to Restart", 230, 350);
+			saveData();
 		}
 
 		if (ball.getY() > 600) {
@@ -137,8 +140,16 @@ public class Board extends GuiPanel {
 			g.setColor(Color.RED);
 			g.setFont(new Font("serif", Font.BOLD, 20));
 			g.drawString("Press (Enter) to Restart", 230, 350);
+			saveData();
 		}
 		g.dispose();
+	}
+
+	public void saveData(){
+		if(diff == "easy" && score>ScoreManager.easyScore) scoreManager.setCurrentEasy(score);
+		else if(diff == "medium" && score>ScoreManager.mediumScore) scoreManager.setCurrentMedium(score);
+		else if(diff == "hard" && score>ScoreManager.hardScore) scoreManager.setCurrentHard(score);
+		scoreManager.SaveScore();
 	}
 
 	public void drawBricks(Graphics2D g) {

@@ -10,19 +10,22 @@ public class MainMenuPanel extends GuiPanel {
 	private String title = "TapTapBall";
 	private int buttonWidth = 220;
 	private int a = 240;
-	public GuiButton resumeButton;
+	public GuiButton leaderboardsButton;
 	public GuiButton playButton;
 	public GuiButton creditButton;
 	public GuiButton quitButton;
 
 	public MainMenuPanel() {
 		super();
-		resumeButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a - 30, buttonWidth, 60);
-		playButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 60, buttonWidth, 60);
+		playButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a - 30, buttonWidth, 60);
+		leaderboardsButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 60, buttonWidth, 60);
 		creditButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 150, buttonWidth, 60);
 		quitButton = new GuiButton(Game.BWIDTH / 2 - buttonWidth / 2, a + 240, buttonWidth, 60);
-		resumeButton.setText("Resume");
-		add(resumeButton);
+		leaderboardsButton.setText("Leaderboards");
+		leaderboardsButton.addActionListener((ActionEvent e)->{
+			GuiScreen.getInstance().setCurrentPanel("Leaderboards");
+		});
+		add(leaderboardsButton);
 		playButton.addActionListener((ActionEvent e) -> {
 			GuiScreen.getInstance().setCurrentPanel("Difficulty");
 		});
