@@ -15,6 +15,8 @@ public class Board extends GuiPanel {
 	private boolean play = false;
 	private boolean NewGame = true;
 	private static String diff;
+	private int prevHighscore=0;
+	private int currentHighscore=0;
 	private int ballposX;
 	private int ballposY = 350;
 	private int playerX = 310;
@@ -93,6 +95,11 @@ public class Board extends GuiPanel {
 		g.setColor(Color.white);
 		g.setFont(new Font("serif", Font.BOLD, 25));
 		g.drawString("" + score, 590, 30);
+		
+		//highscore
+		g.setColor(Color.green);
+		g.setFont(new Font("serif", Font.BOLD, 20));
+		g.drawString("Highscore : "+currentHighscore, 20,30);
 
 		// brick
 		drawBricks((Graphics2D) g);
@@ -119,7 +126,7 @@ public class Board extends GuiPanel {
 			ball.setBallYdir(0);
 			g.setColor(Color.RED);
 			g.setFont(new Font("serif", Font.BOLD, 30));
-			g.drawString("You Won", 260, 300);
+			g.drawString("You Won, Score : "+score, 260, 300);
 
 			g.setColor(Color.RED);
 			g.setFont(new Font("serif", Font.BOLD, 20));
@@ -137,9 +144,15 @@ public class Board extends GuiPanel {
 			g.setFont(new Font("serif", Font.BOLD, 30));
 			g.drawString("Game Over, Scores: " + score, 190, 300);
 
+			if(score>prevHighscore){
+				g.setColor(Color.white);
+				g.setFont(new Font("serif", Font.BOLD, 25));
+				g.drawString("New Highcore!!",245,340);
+			}
+
 			g.setColor(Color.RED);
 			g.setFont(new Font("serif", Font.BOLD, 20));
-			g.drawString("Press (Enter) to Restart", 230, 350);
+			g.drawString("Press (Enter) to Restart", 230, 380);
 			saveData();
 		}
 		g.dispose();
@@ -169,6 +182,7 @@ public class Board extends GuiPanel {
 	@Override
 	public void update() {
 		diff = getDiff();
+		
 		if(NewGame) {
 			if (diff == "easy") {
 				COLS = DifficultLevel.eCOLS;
@@ -186,11 +200,29 @@ public class Board extends GuiPanel {
 				ball.setBallXdir(-4);
 				ball.setBallYdir(-6);
 			}
+
+			if(diff == "easy"){
+				prevHighscore = ScoreManager.easyScore;
+				currentHighscore = ScoreManager.easyScore;
+			} 
+			else if(diff == "medium") {
+				prevHighscore = ScoreManager.mediumScore;
+				currentHighscore = ScoreManager.mediumScore;
+			}
+			else if(diff == "hard"){
+				prevHighscore = ScoreManager.hardScore;
+				currentHighscore = ScoreManager.hardScore;
+			}
+
 			totalBricks = COLS * ROWS;
 			initBricks(ROWS, COLS);
 			NewGame = false;
 		}
 		if (play) {
+			if(currentHighscore<score){
+				currentHighscore = score;
+			}
+
 			if (new Rectangle(ballposX, ballposY, 20, 20)
 					.intersects(new Rectangle(paddle.getX(), 550, 30, 8))) {
 				ball.inverseDirY();
@@ -269,6 +301,7 @@ public class Board extends GuiPanel {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (!play) {
 				play = true;
+				prevHighscore = currentHighscore;
 				ballposX = 150 + randomNumbers.nextInt(100);
 				ball.setX(ballposX);
 				ball.setY(ballposY);
