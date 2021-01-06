@@ -19,6 +19,7 @@ public class Board extends GuiPanel {
 	private int ballposY = 350;
 	private int playerX = 310;
 	private int score = 0;
+	private int highscore = 0;
 	private int COLS;
 	private int ROWS;
 	private Ball ball;
@@ -27,12 +28,13 @@ public class Board extends GuiPanel {
 	private int brickWidth;
 	private int brickHeight;
 	private int totalBricks;
+	public static HighscoreManager highscoreManager;
 
 	public Board() {
 		ballposX = 150 + randomNumbers.nextInt(100);
 		ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
 		paddle = new Paddle(playerX, 580, 100, 8, Color.green);
-
+		highscoreManager = new HighscoreManager();
 	}
 
 	public void initBricks(int row, int col) {
@@ -90,8 +92,12 @@ public class Board extends GuiPanel {
 		// the scores
 		g.setColor(Color.white);
 		g.setFont(new Font("serif", Font.BOLD, 25));
-		g.drawString("" + score, 590, 30);
+		g.drawString("Score: " + score, 575, 30);
 
+		g.setColor(Color.green);
+		g.setFont(new Font("serif", Font.BOLD, 25));
+		g.drawString("Highscore: " + GetHighscore(), 15, 30);
+		
 		// brick
 		drawBricks((Graphics2D) g);
 
@@ -105,8 +111,7 @@ public class Board extends GuiPanel {
 			g.setColor(Color.RED);
 			g.setFont(new Font("serif", Font.BOLD, 30));
 			g.drawString("Welcome to TapTapBall Game", 160, 300);
-
-			g.setColor(Color.RED);
+			g.setColor(Color.GRAY);
 			g.setFont(new Font("serif", Font.BOLD, 20));
 			g.drawString("Press (Space) to Play This Game", 200, 350);
 		}
@@ -115,11 +120,14 @@ public class Board extends GuiPanel {
 			play = false;
 			ball.setBallXdir(0);
 			ball.setBallYdir(0);
-			g.setColor(Color.RED);
+	
+			g.setColor(Color.GREEN);
 			g.setFont(new Font("serif", Font.BOLD, 30));
-			g.drawString("You Won", 260, 300);
-
-			g.setColor(Color.RED);
+			g.drawString("You Won", 280, 300);
+			
+			UpdateHighscore();
+			
+			g.setColor(Color.GRAY);
 			g.setFont(new Font("serif", Font.BOLD, 20));
 			g.drawString("Press (Enter) to Restart", 230, 350);
 		}
@@ -132,9 +140,16 @@ public class Board extends GuiPanel {
 			g.fillRect(0, 0, Game.BWIDTH, Game.BHEIGHT);
 			g.setColor(Color.RED);
 			g.setFont(new Font("serif", Font.BOLD, 30));
-			g.drawString("Game Over, Scores: " + score, 190, 300);
-
-			g.setColor(Color.RED);
+			g.drawString("Game Over", 260, 300);
+			
+			if(highscore < score) {
+				UpdateHighscore();
+				g.setColor(Color.GREEN);
+				g.setFont(new Font("serif", Font.BOLD, 25));
+				g.drawString("New Highscore!", 230, 400);
+			}
+		
+			g.setColor(Color.GRAY);
 			g.setFont(new Font("serif", Font.BOLD, 20));
 			g.drawString("Press (Enter) to Restart", 230, 350);
 		}
@@ -219,7 +234,26 @@ public class Board extends GuiPanel {
 			ball.move();
 		}
 	}
+	
+	public void LoadHighscore() {
+		highscore = highscoreManager.loadHighScore();
+	}
 
+	public void SaveHighscore() {
+		highscoreManager.saveHighScore(highscore);
+	}
+	
+	public void UpdateHighscore() {
+		if(highscore < score) {
+			highscore = score;
+		}
+		SaveHighscore();
+	}
+	
+	public int GetHighscore() {
+		return highscore;
+	}
+	
 	public void mouseDragged(MouseEvent e) {
 		
 	}
