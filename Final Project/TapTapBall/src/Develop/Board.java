@@ -43,7 +43,7 @@ public class Board extends GuiPanel {
 
 	public Board() {
 		backMenuButton = new GuiButton(Game.BWIDTH/2-buttonWidth/2,330,buttonWidth,60);
-		backMenuButton.setText("BacktoMenu");
+		backMenuButton.setText("Back to Menu");
 		backMenuButton.addActionListener((ActionEvent e)-> {
 			play = false;
 			resetBoard();
@@ -310,5 +310,4 @@ public class Board extends GuiPanel {
 			}
 		}
 	}
-
 }
