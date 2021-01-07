@@ -870,7 +870,7 @@ public class MainApp {
 
 **Tampilan Hard Level**
 
-![Hard](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/hardlevel.gif)
+![Hard](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/hardLevel.gif)
 
 ## `Class Diagram`
 Hubungan antar Class dapat dilihat pada diagram berikut:
