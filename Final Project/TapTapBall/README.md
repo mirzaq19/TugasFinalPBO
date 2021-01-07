@@ -386,9 +386,6 @@ public void loadScore(){
     } catch (Exception e) {
         e.printStackTrace();
     }
-    System.out.println(easyScore);
-    System.out.println(mediumScore);
-    System.out.println(hardScore);
 }
 
 public void createSaveData() {
@@ -428,10 +425,17 @@ public void SaveScore(){
 ## 10. Kelas `Board`
 Di kelas `Board` ini adalah tempat di mana permainan berlangsung serta mengatur posisi dari setiap objek pada awal permainan. Tidak hanya itu, setiap objek dalam permainan konfigurasinya berbeda berdasarkan pada tingkat kesulitan yang dipilih, yaitu **Easy**, **Medium**, ataupun **Hard**.
 
-Pada *Constructor* di kelas ini berisi inisiasi objek bola, *paddle*, *brick*, serta skor dalam permainan. Adapun untuk objek bola posisi koordinat x akan ditentukan secara random oleh sistem.
+Pada *Constructor* di kelas ini berisi inisiasi objek bola, *paddle*, *brick*, *back button*, serta skor dalam permainan. Adapun untuk objek bola posisi koordinat x akan ditentukan secara random oleh sistem.
 
 ```JAVA
 public Board() {
+  backMenuButton = new GuiButton(Game.BWIDTH/2-buttonWidth/2,330,buttonWidth,60);
+  backMenuButton.setText("Back to Menu");
+  backMenuButton.addActionListener((ActionEvent e)-> {
+    play = false;
+    resetBoard();
+    GuiScreen.getInstance().setCurrentPanel("Menu");
+  });
   bricks = new ArrayList<>();
   ballposX = 150 + randomNumbers.nextInt(100);
   ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
@@ -526,37 +530,39 @@ public void render(Graphics2D g) {
     g.setFont(new Font("serif", Font.BOLD, 20));
     g.drawString("Press (Space) to Play This Game", 200, 350);
   }
-
-  if (totalBricks <= 0) {
+  if(totalBricks<=0||ball.getY()>600){
     play = false;
+    over = true;
     ball.setBallXdir(0);
     ball.setBallYdir(0);
-    g.setColor(Color.GREEN);
-    g.setFont(new Font("serif", Font.BOLD, 30));
-    g.drawString("You Won, Score: "+score, 210, 300);
-    drawNewHighscore(g);
-    g.setColor(Color.GRAY);
-    g.setFont(new Font("serif", Font.BOLD, 20));
-    g.drawString("Press (Enter) to Restart", 230, 380);
-    saveData();
-  }
-
-  if (ball.getY() > 600) {
-    play = false;
-    ball.setBallXdir(0);
-    ball.setBallYdir(0);
-    g.setColor(new Color(222, 222, 222,0));
+    g.setColor(new Color(30, 30, 30,alpha));
     g.fillRect(0, 0, Game.BWIDTH, Game.BHEIGHT);
-    g.setColor(Color.RED);
-    g.setFont(new Font("serif", Font.BOLD, 30));
-    g.drawString("Game Over, Score: " + score, 190, 300);
+    if (totalBricks <= 0) {
+      g.setColor(Color.GREEN);
+      g.setFont(overTitleFont);
+      g.drawString("You Won, Score: "+score, Game.BWIDTH/2-GuiButton.getMessageWidth("You Won, Score: "+score, overTitleFont, g)/2, 150);
+    }
+    if (ball.getY() > 600) {
+      g.setColor(Color.RED);
+      g.setFont(overTitleFont);
+      g.drawString("Game Over, Score: " + score,Game.BWIDTH/2-GuiButton.getMessageWidth("Game Over, Score: " + score, overTitleFont, g)/2, 150);
+    }
     drawNewHighscore(g);
     g.setColor(Color.GRAY);
-    g.setFont(new Font("serif", Font.BOLD, 20));
-    g.drawString("Press (Enter) to Restart", 230, 380);
-    saveData();
+    g.setFont(overDesFont);
+    g.drawString("Press (Enter) to Restart", Game.BWIDTH/2-GuiButton.getMessageWidth("Press (Enter) to Restart"+ score, overDesFont, g)/2, 250);
+    
+    if(!added){
+      added = true;
+      add(backMenuButton);
+    }
+
+    if(!saved){
+      saveData();
+      saved = true;
+    }
   }
-  g.dispose();
+  super.render(g);
 }
 ```
 Lalu, terdapat fungsi **drawNewHighscore()** digunakan untuk menampilkan teks mengenai skor tertinggi baru yang digapai pemain.
@@ -565,8 +571,8 @@ Lalu, terdapat fungsi **drawNewHighscore()** digunakan untuk menampilkan teks me
 public void drawNewHighscore(Graphics2D g){
   if(score>prevHighscore){
     g.setColor(Color.GREEN);
-    g.setFont(new Font("serif", Font.BOLD, 25));
-    g.drawString("New Highcore!!",245,340);
+    g.setFont(overDesFont);
+    g.drawString("New Highcore!!",Game.BWIDTH/2-GuiButton.getMessageWidth("New Highcore!!", overDesFont, g)/2,190);
   }
 }
 ```
@@ -601,6 +607,47 @@ public static void setDiff(String diff) {
 }
 ```
 
+Juga terdapat fungsi **newGame()** untuk menampilkan *highscore* sebelumnya, beserta *brick* di masing-masing level. Juga fungsi **resetBoard()** untk kembali ke tampilan awal.
+
+```JAVA
+public void newGame(){
+  if (diff == "easy") {
+    prevHighscore = ScoreManager.easyScore;
+    currentHighscore = ScoreManager.easyScore;
+    COLS = DifficultLevel.eCOLS;
+    ROWS = DifficultLevel.eROWS;
+  } else if (diff == "medium") {
+    prevHighscore = ScoreManager.mediumScore;
+    currentHighscore = ScoreManager.mediumScore;
+    COLS = DifficultLevel.mCOLS;
+    ROWS = DifficultLevel.mROWS;
+  } else if (diff == "hard") {
+    prevHighscore = ScoreManager.hardScore;
+    currentHighscore = ScoreManager.hardScore;
+    COLS = DifficultLevel.hCOLS;
+    ROWS = DifficultLevel.hROWS;
+  }
+  remove(backMenuButton);
+  ballposX = 150 + randomNumbers.nextInt(100);
+  ball.setX(ballposX);
+  ball.setY(ballposY);
+  ball.defaultSpeed(diff);
+  score=0;
+  totalBricks = COLS * ROWS;
+  bricks.clear();
+  initBricks(ROWS, COLS);
+  NewGame = false;
+}
+
+public void resetBoard(){
+  over = false;
+  NewGame = true;
+  alpha = 0;
+  added = false;
+  saved = false;
+}
+```
+
 Dan selanjutnya ada fungsi **update()** yang digunakan pada saat permainan berlangsung, seperti memperbarui skor ketika *brick* berhasil dihancurkan.
 
 ```JAVA
@@ -609,32 +656,7 @@ public void update() {
   diff = getDiff();
   
   if(NewGame) {
-    if (diff == "easy") {
-      prevHighscore = ScoreManager.easyScore;
-      currentHighscore = ScoreManager.easyScore;
-      COLS = DifficultLevel.eCOLS;
-      ROWS = DifficultLevel.eROWS;
-      ball.setBallXdir(-2);
-      ball.setBallYdir(-4);
-    } else if (diff == "medium") {
-      prevHighscore = ScoreManager.mediumScore;
-      currentHighscore = ScoreManager.mediumScore;
-      COLS = DifficultLevel.mCOLS;
-      ROWS = DifficultLevel.mROWS;
-      ball.setBallXdir(-3);
-      ball.setBallYdir(-5);
-    } else if (diff == "hard") {
-      prevHighscore = ScoreManager.hardScore;
-      currentHighscore = ScoreManager.hardScore;
-      COLS = DifficultLevel.hCOLS;
-      ROWS = DifficultLevel.hROWS;
-      ball.setBallXdir(-4);
-      ball.setBallYdir(-6);
-    }
-
-    totalBricks = COLS * ROWS;
-    initBricks(ROWS, COLS);
-    NewGame = false;
+    newGame();
   }
   if(currentHighscore<score){
     currentHighscore = score;
@@ -677,39 +699,18 @@ public void update() {
     }
     ball.move();
   }
+  if(alpha<200 && over) alpha+=2;
 }
 ```
 
-Dan yang terakhir terdapat *event handling* menggunakan *mouse* dan *keyboard* yang digunakan dalam permainan. Contohnya fungsi **mouseMoved()** digunakan untuk menggerakkan *paddle*, kemudian fungsi **keyPressed()** dimanfaatkan untuk memulai atau mengulangi permainan.
+Dan yang terakhir terdapat *event handling* menggunakan *mouse* dan *keyboard* yang digunakan dalam permainan. Yakni fungsi **mouseMoved()** digunakan untuk menggerakkan *paddle*, kemudian fungsi **keyPressed()** dimanfaatkan untuk memulai atau mengulangi permainan.
 
 ```JAVA
-public void mouseDragged(MouseEvent e) {
-  
-}
-
+@Override
 public void mouseMoved(MouseEvent e) {
   if (play)
     paddle.move(e);
-}
-
-public void mouseClicked(MouseEvent e) {
-
-}
-
-public void mousePressed(MouseEvent e) {
-
-}
-
-public void mouseReleased(MouseEvent e) {
-
-}
-
-public void mouseEntered(MouseEvent e) {
-
-}
-
-public void mouseExited(MouseEvent e) {
-
+  super.mouseMoved(e);
 }
 
 @Override
@@ -719,17 +720,10 @@ public void keyPressed(KeyEvent e) {
       play = true;
   }
   if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-    if (!play) {
+    if (!play && over) {
       play = true;
-      prevHighscore = currentHighscore;
-      ballposX = 150 + randomNumbers.nextInt(100);
-      ball.setX(ballposX);
-      ball.setY(ballposY);
-      ball.defaultSpeed(diff);
-      score = 0;
-      totalBricks = COLS * ROWS;
-      bricks.clear();
-      initBricks(ROWS, COLS);
+      resetBoard();
+      remove(backMenuButton);
     }
   }
 }
@@ -864,7 +858,7 @@ public class MainApp {
 
 **Tampilan Awal**
 
-![MainMenu](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/menucredit.gif)
+![MainMenu](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/mainmenu.gif)
 
 **Tampilan Easy Level**
 
@@ -876,7 +870,7 @@ public class MainApp {
 
 **Tampilan Hard Level**
 
-![Hard](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/hardLevel.gif)
+![Hard](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/hardlevel.gif)
 
 ## `Class Diagram`
 Hubungan antar Class dapat dilihat pada diagram berikut:
