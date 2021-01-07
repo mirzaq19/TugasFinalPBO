@@ -52,18 +52,18 @@ public class Ball extends GameObject{
 	public void setBallYdir(int ballYdir) {
 		this.ballYdir = ballYdir;
 	}
-	
-	public void easySpeed() {
-		this.ballXdir = -2;
-		this.ballYdir = -4;
-	}
-	public void mediumSpeed() {
-		this.ballXdir = -3;
-		this.ballYdir = -5;
-	}
-	public void hardSpeed() {
-		this.ballXdir = -4;
-		this.ballYdir = -6;
+
+	public void defaultSpeed(String diff){
+		if(diff == "easy") {
+			this.ballXdir = -2;
+			this.ballYdir = -4;
+		}else if(diff == "medium"){
+			this.ballXdir = -3;
+			this.ballYdir = -5;
+		} else if(diff == "hard"){
+			this.ballXdir = -4;
+			this.ballYdir = -6;
+		}
 	}
 	
 }

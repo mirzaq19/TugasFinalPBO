@@ -40,6 +40,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 		screen.add("Menu", new MainMenuPanel());
 		screen.add("Difficulty", new DifficultyPanel());
 		screen.add("Board",new Board());
+		screen.add("Leaderboards",new LeaderboardsPanel());
         screen.add("Credit", new CreditPanel());
 		screen.setCurrentPanel("Menu");
 		timer = new Timer(DELAY, this);

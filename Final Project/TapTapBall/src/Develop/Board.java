@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -14,7 +16,14 @@ public class Board extends GuiPanel {
 	private SecureRandom randomNumbers = new SecureRandom();
 	private boolean play = false;
 	private boolean NewGame = true;
+	private boolean over = false;
+	private boolean added=false;
+	private boolean saved = false;
+	private Font overTitleFont = new Font("serif", Font.BOLD, 35);
+	private Font overDesFont = new Font("serif", Font.BOLD, 25);
 	private static String diff;
+	private int prevHighscore=0;
+	private int currentHighscore=0;
 	private int ballposX;
 	private int ballposY = 350;
 	private int playerX = 310;
@@ -23,20 +32,32 @@ public class Board extends GuiPanel {
 	private int ROWS;
 	private Ball ball;
 	private Paddle paddle;
+	private ScoreManager scoreManager;
 	private List<Brick> bricks;
 	private int brickWidth;
 	private int brickHeight;
 	private int totalBricks;
+	private int buttonWidth=220;
+	private GuiButton backMenuButton;
+	private int alpha=0;
 
 	public Board() {
+		backMenuButton = new GuiButton(Game.BWIDTH/2-buttonWidth/2,330,buttonWidth,60);
+		backMenuButton.setText("Back to Menu");
+		backMenuButton.addActionListener((ActionEvent e)-> {
+			play = false;
+			resetBoard();
+			GuiScreen.getInstance().setCurrentPanel("Menu");
+		});
+		bricks = new ArrayList<>();
 		ballposX = 150 + randomNumbers.nextInt(100);
 		ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
 		paddle = new Paddle(playerX, 580, 100, 8, Color.green);
-
+		scoreManager = new ScoreManager();
+		scoreManager.loadScore();
 	}
 
 	public void initBricks(int row, int col) {
-		bricks = new ArrayList<>();
 		int randomBrick=0;
 		if (diff == "easy") {
 			brickWidth = 540 / col;
@@ -90,7 +111,12 @@ public class Board extends GuiPanel {
 		// the scores
 		g.setColor(Color.white);
 		g.setFont(new Font("serif", Font.BOLD, 25));
-		g.drawString("" + score, 590, 30);
+		g.drawString("Score: " + score, 575, 30);
+		
+		//highscore
+		g.setColor(Color.green);
+		g.setFont(new Font("serif", Font.BOLD, 20));
+		g.drawString("Highscore: "+currentHighscore, 20,30);
 
 		// brick
 		drawBricks((Graphics2D) g);
@@ -106,39 +132,58 @@ public class Board extends GuiPanel {
 			g.setFont(new Font("serif", Font.BOLD, 30));
 			g.drawString("Welcome to TapTapBall Game", 160, 300);
 
-			g.setColor(Color.RED);
+			g.setColor(Color.GRAY);
 			g.setFont(new Font("serif", Font.BOLD, 20));
 			g.drawString("Press (Space) to Play This Game", 200, 350);
 		}
-
-		if (totalBricks <= 0) {
+		if(totalBricks<=0||ball.getY()>600){
 			play = false;
+			over = true;
 			ball.setBallXdir(0);
 			ball.setBallYdir(0);
-			g.setColor(Color.RED);
-			g.setFont(new Font("serif", Font.BOLD, 30));
-			g.drawString("You Won", 260, 300);
-
-			g.setColor(Color.RED);
-			g.setFont(new Font("serif", Font.BOLD, 20));
-			g.drawString("Press (Enter) to Restart", 230, 350);
-		}
-
-		if (ball.getY() > 600) {
-			play = false;
-			ball.setBallXdir(0);
-			ball.setBallYdir(0);
-			g.setColor(new Color(222, 222, 222,0));
+			g.setColor(new Color(30, 30, 30,alpha));
 			g.fillRect(0, 0, Game.BWIDTH, Game.BHEIGHT);
-			g.setColor(Color.RED);
-			g.setFont(new Font("serif", Font.BOLD, 30));
-			g.drawString("Game Over, Scores: " + score, 190, 300);
+			if (totalBricks <= 0) {
+				g.setColor(Color.GREEN);
+				g.setFont(overTitleFont);
+				g.drawString("You Won, Score: "+score, Game.BWIDTH/2-GuiButton.getMessageWidth("You Won, Score: "+score, overTitleFont, g)/2, 150);
+			}
+			if (ball.getY() > 600) {
+				g.setColor(Color.RED);
+				g.setFont(overTitleFont);
+				g.drawString("Game Over, Score: " + score,Game.BWIDTH/2-GuiButton.getMessageWidth("Game Over, Score: " + score, overTitleFont, g)/2, 150);
+			}
+			drawNewHighscore(g);
+			g.setColor(Color.GRAY);
+			g.setFont(overDesFont);
+			g.drawString("Press (Enter) to Restart", Game.BWIDTH/2-GuiButton.getMessageWidth("Press (Enter) to Restart"+ score, overDesFont, g)/2, 250);
+			
+			if(!added){
+				added = true;
+				add(backMenuButton);
+			}
 
-			g.setColor(Color.RED);
-			g.setFont(new Font("serif", Font.BOLD, 20));
-			g.drawString("Press (Enter) to Restart", 230, 350);
+			if(!saved){
+				saveData();
+				saved = true;
+			}
 		}
-		g.dispose();
+		super.render(g);
+	}
+
+	public void drawNewHighscore(Graphics2D g){
+		if(score>prevHighscore){
+			g.setColor(Color.GREEN);
+			g.setFont(overDesFont);
+			g.drawString("New Highcore!!",Game.BWIDTH/2-GuiButton.getMessageWidth("New Highcore!!", overDesFont, g)/2,190);
+		}
+	}
+
+	public void saveData(){
+		if(diff == "easy" && score>ScoreManager.easyScore) scoreManager.setCurrentEasy(score);
+		else if(diff == "medium" && score>ScoreManager.mediumScore) scoreManager.setCurrentMedium(score);
+		else if(diff == "hard" && score>ScoreManager.hardScore) scoreManager.setCurrentHard(score);
+		scoreManager.SaveScore();
 	}
 
 	public void drawBricks(Graphics2D g) {
@@ -155,44 +200,67 @@ public class Board extends GuiPanel {
 	public static void setDiff(String diff) {
 		Board.diff = diff;
 	}
+
+	public void newGame(){
+		if (diff == "easy") {
+			prevHighscore = ScoreManager.easyScore;
+			currentHighscore = ScoreManager.easyScore;
+			COLS = DifficultLevel.eCOLS;
+			ROWS = DifficultLevel.eROWS;
+		} else if (diff == "medium") {
+			prevHighscore = ScoreManager.mediumScore;
+			currentHighscore = ScoreManager.mediumScore;
+			COLS = DifficultLevel.mCOLS;
+			ROWS = DifficultLevel.mROWS;
+		} else if (diff == "hard") {
+			prevHighscore = ScoreManager.hardScore;
+			currentHighscore = ScoreManager.hardScore;
+			COLS = DifficultLevel.hCOLS;
+			ROWS = DifficultLevel.hROWS;
+		}
+		remove(backMenuButton);
+		ballposX = 150 + randomNumbers.nextInt(100);
+		ball.setX(ballposX);
+		ball.setY(ballposY);
+		ball.defaultSpeed(diff);
+		score=0;
+		totalBricks = COLS * ROWS;
+		bricks.clear();
+		initBricks(ROWS, COLS);
+		NewGame = false;
+	}
+
+	public void resetBoard(){
+		over = false;
+		NewGame = true;
+		alpha = 0;
+		added = false;
+		saved = false;
+	}
+
 	@Override
 	public void update() {
 		diff = getDiff();
+		
 		if(NewGame) {
-			if (diff == "easy") {
-				COLS = DifficultLevel.eCOLS;
-				ROWS = DifficultLevel.eROWS;
-				ball.setBallXdir(-3);
-				ball.setBallYdir(-5);
-			} else if (diff == "medium") {
-				COLS = DifficultLevel.mCOLS;
-				ROWS = DifficultLevel.mROWS;
-				ball.setBallXdir(-3);
-				ball.setBallYdir(-5);
-			} else if (diff == "hard") {
-				COLS = DifficultLevel.hCOLS;
-				ROWS = DifficultLevel.hROWS;
-				ball.setBallXdir(-4);
-				ball.setBallYdir(-6);
-			}
-			totalBricks = COLS * ROWS;
-			initBricks(ROWS, COLS);
-			NewGame = false;
+			newGame();
+		}
+		if(currentHighscore<score){
+			currentHighscore = score;
 		}
 		if (play) {
-			if (new Rectangle(ballposX, ballposY, 20, 20)
-					.intersects(new Rectangle(paddle.getX(), 550, 30, 8))) {
-				ball.inverseDirY();
-				ball.setBallXdir(ball.getBallXdir() + 1);
+
+			if (new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX(), paddle.getY(), 30, 8))) {
+				ball.defaultSpeed(diff);
 			}
-			else if (new Rectangle(ballposX, ballposY, 20, 20)
-					.intersects(new Rectangle(paddle.getX() + 70, 550, 30, 8))) {
+			else if(new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX()+30, paddle.getY(), 30, 8))) {
 				ball.inverseDirY();
-				ball.setBallXdir(ball.getBallXdir() + 1);
+				if(ball.getBallXdir() < 0) ball.setBallXdir(ball.getBallXdir() + 1);
+				else ball.setBallXdir(ball.getBallXdir()-1);
 			}
-			else if(new Rectangle(ball.getX(), ball.getY(), 20, 20)
-					.intersects(new Rectangle(paddle.getX(), paddle.getY(), 100, 8))) {
-				ball.inverseDirY();
+			else if(new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX()+70, paddle.getY(), 30, 8))) {
+				ball.defaultSpeed(diff);
+				ball.inverseDirX();
 			}
 
 			A: for (Brick brick : bricks) {
@@ -218,35 +286,14 @@ public class Board extends GuiPanel {
 			}
 			ball.move();
 		}
+		if(alpha<200 && over) alpha+=2;
 	}
 
-	public void mouseDragged(MouseEvent e) {
-		
-	}
-
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		if (play)
 			paddle.move(e);
-	}
-
-	public void mouseClicked(MouseEvent e) {
-
-	}
-
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	public void mouseEntered(MouseEvent e) {
-
-	}
-
-	public void mouseExited(MouseEvent e) {
-
+		super.mouseMoved(e);
 	}
 
 	@Override
@@ -256,23 +303,11 @@ public class Board extends GuiPanel {
 				play = true;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if (!play) {
+			if (!play && over) {
 				play = true;
-				ballposX = 150 + randomNumbers.nextInt(100);
-				ball.setX(ballposX);
-				ball.setY(ballposY);
-				if(diff == "easy") ball.easySpeed();
-				else if (diff == "medium") ball.mediumSpeed();
-				else if (diff == "hard") ball.hardSpeed();
-				score = 0;
-				totalBricks = COLS * ROWS;
-				for (Brick brick : bricks) {
-					if(brick instanceof WhiteBrick) ((WhiteBrick) brick).defaultValue();
-					else if(brick instanceof RedBrick) ((RedBrick) brick).defaultValue();
-					else if(brick instanceof BlueBrick) ((BlueBrick) brick).defaultValue();
-				}
+				resetBoard();
+				remove(backMenuButton);
 			}
 		}
 	}
-
 }
