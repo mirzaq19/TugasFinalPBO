@@ -353,7 +353,7 @@ public void setCurrentHard(int currentHard) {
 }
 ```
 
-Kemudian terdapat *constructor* **ScoreManager()** beserta fungsi **loadScore()**, **createSaveData()**, dan **SaveScore()** yang digunakan untuk membuat file yang akan menyimpan skor dalam permainan.
+Kemudian terdapat *constructor* **ScoreManager()** beserta fungsi **loadScore()**, **createSaveData()**, dan **SaveScore()** yang digunakan untuk membuat file yang akan menyimpan skor dalam permainan sehingga menerapkan metode serializable.
 
 ```JAVA
 public ScoreManager(){
@@ -598,6 +598,7 @@ public void drawBricks(Graphics2D g) {
     }
   }
 }
+
 public static String getDiff() {
   return diff;
 }
