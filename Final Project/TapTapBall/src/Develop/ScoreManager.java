@@ -46,9 +46,6 @@ public class ScoreManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(easyScore);
-        System.out.println(mediumScore);
-        System.out.println(hardScore);
     }
 
     public void createSaveData() {

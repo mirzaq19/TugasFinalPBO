@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -14,6 +16,11 @@ public class Board extends GuiPanel {
 	private SecureRandom randomNumbers = new SecureRandom();
 	private boolean play = false;
 	private boolean NewGame = true;
+	private boolean over = false;
+	private boolean added=false;
+	private boolean saved = false;
+	private Font overTitleFont = new Font("serif", Font.BOLD, 35);
+	private Font overDesFont = new Font("serif", Font.BOLD, 25);
 	private static String diff;
 	private int prevHighscore=0;
 	private int currentHighscore=0;
@@ -30,8 +37,18 @@ public class Board extends GuiPanel {
 	private int brickWidth;
 	private int brickHeight;
 	private int totalBricks;
+	private int buttonWidth=220;
+	private GuiButton backMenuButton;
+	private int alpha=0;
 
 	public Board() {
+		backMenuButton = new GuiButton(Game.BWIDTH/2-buttonWidth/2,330,buttonWidth,60);
+		backMenuButton.setText("BacktoMenu");
+		backMenuButton.addActionListener((ActionEvent e)-> {
+			play = false;
+			resetBoard();
+			GuiScreen.getInstance().setCurrentPanel("Menu");
+		});
 		bricks = new ArrayList<>();
 		ballposX = 150 + randomNumbers.nextInt(100);
 		ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
@@ -119,44 +136,46 @@ public class Board extends GuiPanel {
 			g.setFont(new Font("serif", Font.BOLD, 20));
 			g.drawString("Press (Space) to Play This Game", 200, 350);
 		}
-
-		if (totalBricks <= 0) {
+		if(totalBricks<=0||ball.getY()>600){
 			play = false;
+			over = true;
 			ball.setBallXdir(0);
 			ball.setBallYdir(0);
-			g.setColor(Color.GREEN);
-			g.setFont(new Font("serif", Font.BOLD, 30));
-			g.drawString("You Won, Score: "+score, 210, 300);
-			drawNewHighscore(g);
-			g.setColor(Color.GRAY);
-			g.setFont(new Font("serif", Font.BOLD, 20));
-			g.drawString("Press (Enter) to Restart", 230, 380);
-			saveData();
-		}
-
-		if (ball.getY() > 600) {
-			play = false;
-			ball.setBallXdir(0);
-			ball.setBallYdir(0);
-			g.setColor(new Color(222, 222, 222,0));
+			g.setColor(new Color(30, 30, 30,alpha));
 			g.fillRect(0, 0, Game.BWIDTH, Game.BHEIGHT);
-			g.setColor(Color.RED);
-			g.setFont(new Font("serif", Font.BOLD, 30));
-			g.drawString("Game Over, Score: " + score, 190, 300);
+			if (totalBricks <= 0) {
+				g.setColor(Color.GREEN);
+				g.setFont(overTitleFont);
+				g.drawString("You Won, Score: "+score, Game.BWIDTH/2-GuiButton.getMessageWidth("You Won, Score: "+score, overTitleFont, g)/2, 150);
+			}
+			if (ball.getY() > 600) {
+				g.setColor(Color.RED);
+				g.setFont(overTitleFont);
+				g.drawString("Game Over, Score: " + score,Game.BWIDTH/2-GuiButton.getMessageWidth("Game Over, Score: " + score, overTitleFont, g)/2, 150);
+			}
 			drawNewHighscore(g);
 			g.setColor(Color.GRAY);
-			g.setFont(new Font("serif", Font.BOLD, 20));
-			g.drawString("Press (Enter) to Restart", 230, 380);
-			saveData();
+			g.setFont(overDesFont);
+			g.drawString("Press (Enter) to Restart", Game.BWIDTH/2-GuiButton.getMessageWidth("Press (Enter) to Restart"+ score, overDesFont, g)/2, 250);
+			
+			if(!added){
+				added = true;
+				add(backMenuButton);
+			}
+
+			if(!saved){
+				saveData();
+				saved = true;
+			}
 		}
-		g.dispose();
+		super.render(g);
 	}
 
 	public void drawNewHighscore(Graphics2D g){
 		if(score>prevHighscore){
 			g.setColor(Color.GREEN);
-			g.setFont(new Font("serif", Font.BOLD, 25));
-			g.drawString("New Highcore!!",245,340);
+			g.setFont(overDesFont);
+			g.drawString("New Highcore!!",Game.BWIDTH/2-GuiButton.getMessageWidth("New Highcore!!", overDesFont, g)/2,190);
 		}
 	}
 
@@ -181,37 +200,50 @@ public class Board extends GuiPanel {
 	public static void setDiff(String diff) {
 		Board.diff = diff;
 	}
+
+	public void newGame(){
+		if (diff == "easy") {
+			prevHighscore = ScoreManager.easyScore;
+			currentHighscore = ScoreManager.easyScore;
+			COLS = DifficultLevel.eCOLS;
+			ROWS = DifficultLevel.eROWS;
+		} else if (diff == "medium") {
+			prevHighscore = ScoreManager.mediumScore;
+			currentHighscore = ScoreManager.mediumScore;
+			COLS = DifficultLevel.mCOLS;
+			ROWS = DifficultLevel.mROWS;
+		} else if (diff == "hard") {
+			prevHighscore = ScoreManager.hardScore;
+			currentHighscore = ScoreManager.hardScore;
+			COLS = DifficultLevel.hCOLS;
+			ROWS = DifficultLevel.hROWS;
+		}
+		remove(backMenuButton);
+		ballposX = 150 + randomNumbers.nextInt(100);
+		ball.setX(ballposX);
+		ball.setY(ballposY);
+		ball.defaultSpeed(diff);
+		score=0;
+		totalBricks = COLS * ROWS;
+		bricks.clear();
+		initBricks(ROWS, COLS);
+		NewGame = false;
+	}
+
+	public void resetBoard(){
+		over = false;
+		NewGame = true;
+		alpha = 0;
+		added = false;
+		saved = false;
+	}
+
 	@Override
 	public void update() {
 		diff = getDiff();
 		
 		if(NewGame) {
-			if (diff == "easy") {
-				prevHighscore = ScoreManager.easyScore;
-				currentHighscore = ScoreManager.easyScore;
-				COLS = DifficultLevel.eCOLS;
-				ROWS = DifficultLevel.eROWS;
-				ball.setBallXdir(-2);
-				ball.setBallYdir(-4);
-			} else if (diff == "medium") {
-				prevHighscore = ScoreManager.mediumScore;
-				currentHighscore = ScoreManager.mediumScore;
-				COLS = DifficultLevel.mCOLS;
-				ROWS = DifficultLevel.mROWS;
-				ball.setBallXdir(-3);
-				ball.setBallYdir(-5);
-			} else if (diff == "hard") {
-				prevHighscore = ScoreManager.hardScore;
-				currentHighscore = ScoreManager.hardScore;
-				COLS = DifficultLevel.hCOLS;
-				ROWS = DifficultLevel.hROWS;
-				ball.setBallXdir(-4);
-				ball.setBallYdir(-6);
-			}
-
-			totalBricks = COLS * ROWS;
-			initBricks(ROWS, COLS);
-			NewGame = false;
+			newGame();
 		}
 		if(currentHighscore<score){
 			currentHighscore = score;
@@ -254,35 +286,14 @@ public class Board extends GuiPanel {
 			}
 			ball.move();
 		}
+		if(alpha<200 && over) alpha+=2;
 	}
 
-	public void mouseDragged(MouseEvent e) {
-		
-	}
-
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		if (play)
 			paddle.move(e);
-	}
-
-	public void mouseClicked(MouseEvent e) {
-
-	}
-
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	public void mouseEntered(MouseEvent e) {
-
-	}
-
-	public void mouseExited(MouseEvent e) {
-
+		super.mouseMoved(e);
 	}
 
 	@Override
@@ -292,17 +303,10 @@ public class Board extends GuiPanel {
 				play = true;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if (!play) {
+			if (!play && over) {
 				play = true;
-				prevHighscore = currentHighscore;
-				ballposX = 150 + randomNumbers.nextInt(100);
-				ball.setX(ballposX);
-				ball.setY(ballposY);
-				ball.defaultSpeed(diff);
-				score = 0;
-				totalBricks = COLS * ROWS;
-				bricks.clear();
-				initBricks(ROWS, COLS);
+				resetBoard();
+				remove(backMenuButton);
 			}
 		}
 	}
