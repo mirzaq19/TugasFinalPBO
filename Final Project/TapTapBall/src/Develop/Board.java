@@ -32,6 +32,7 @@ public class Board extends GuiPanel {
 	private int totalBricks;
 
 	public Board() {
+		bricks = new ArrayList<>();
 		ballposX = 150 + randomNumbers.nextInt(100);
 		ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
 		paddle = new Paddle(playerX, 580, 100, 8, Color.green);
@@ -40,7 +41,6 @@ public class Board extends GuiPanel {
 	}
 
 	public void initBricks(int row, int col) {
-		bricks = new ArrayList<>();
 		int randomBrick=0;
 		if (diff == "easy") {
 			brickWidth = 540 / col;
@@ -127,10 +127,10 @@ public class Board extends GuiPanel {
 			g.setColor(Color.GREEN);
 			g.setFont(new Font("serif", Font.BOLD, 30));
 			g.drawString("You Won, Score: "+score, 210, 300);
-
+			drawNewHighscore(g);
 			g.setColor(Color.GRAY);
 			g.setFont(new Font("serif", Font.BOLD, 20));
-			g.drawString("Press (Enter) to Restart", 230, 350);
+			g.drawString("Press (Enter) to Restart", 230, 380);
 			saveData();
 		}
 
@@ -143,19 +143,21 @@ public class Board extends GuiPanel {
 			g.setColor(Color.RED);
 			g.setFont(new Font("serif", Font.BOLD, 30));
 			g.drawString("Game Over, Score: " + score, 190, 300);
-
-			if(score>prevHighscore){
-				g.setColor(Color.GREEN);
-				g.setFont(new Font("serif", Font.BOLD, 25));
-				g.drawString("New Highcore!!",245,340);
-			}
-
+			drawNewHighscore(g);
 			g.setColor(Color.GRAY);
 			g.setFont(new Font("serif", Font.BOLD, 20));
 			g.drawString("Press (Enter) to Restart", 230, 380);
 			saveData();
 		}
 		g.dispose();
+	}
+
+	public void drawNewHighscore(Graphics2D g){
+		if(score>prevHighscore){
+			g.setColor(Color.GREEN);
+			g.setFont(new Font("serif", Font.BOLD, 25));
+			g.drawString("New Highcore!!",245,340);
+		}
 	}
 
 	public void saveData(){
@@ -185,57 +187,48 @@ public class Board extends GuiPanel {
 		
 		if(NewGame) {
 			if (diff == "easy") {
+				prevHighscore = ScoreManager.easyScore;
+				currentHighscore = ScoreManager.easyScore;
 				COLS = DifficultLevel.eCOLS;
 				ROWS = DifficultLevel.eROWS;
-				ball.setBallXdir(-3);
-				ball.setBallYdir(-5);
+				ball.setBallXdir(-2);
+				ball.setBallYdir(-4);
 			} else if (diff == "medium") {
+				prevHighscore = ScoreManager.mediumScore;
+				currentHighscore = ScoreManager.mediumScore;
 				COLS = DifficultLevel.mCOLS;
 				ROWS = DifficultLevel.mROWS;
 				ball.setBallXdir(-3);
 				ball.setBallYdir(-5);
 			} else if (diff == "hard") {
+				prevHighscore = ScoreManager.hardScore;
+				currentHighscore = ScoreManager.hardScore;
 				COLS = DifficultLevel.hCOLS;
 				ROWS = DifficultLevel.hROWS;
 				ball.setBallXdir(-4);
 				ball.setBallYdir(-6);
 			}
 
-			if(diff == "easy"){
-				prevHighscore = ScoreManager.easyScore;
-				currentHighscore = ScoreManager.easyScore;
-			} 
-			else if(diff == "medium") {
-				prevHighscore = ScoreManager.mediumScore;
-				currentHighscore = ScoreManager.mediumScore;
-			}
-			else if(diff == "hard"){
-				prevHighscore = ScoreManager.hardScore;
-				currentHighscore = ScoreManager.hardScore;
-			}
-
 			totalBricks = COLS * ROWS;
 			initBricks(ROWS, COLS);
 			NewGame = false;
 		}
+		if(currentHighscore<score){
+			currentHighscore = score;
+		}
 		if (play) {
-			if(currentHighscore<score){
-				currentHighscore = score;
-			}
 
-			if (new Rectangle(ballposX, ballposY, 20, 20)
-					.intersects(new Rectangle(paddle.getX(), 550, 30, 8))) {
-				ball.inverseDirY();
-				ball.setBallXdir(ball.getBallXdir() + 1);
+			if (new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX(), paddle.getY(), 30, 8))) {
+				ball.defaultSpeed(diff);
 			}
-			else if (new Rectangle(ballposX, ballposY, 20, 20)
-					.intersects(new Rectangle(paddle.getX() + 70, 550, 30, 8))) {
+			else if(new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX()+30, paddle.getY(), 30, 8))) {
 				ball.inverseDirY();
-				ball.setBallXdir(ball.getBallXdir() + 1);
+				if(ball.getBallXdir() < 0) ball.setBallXdir(ball.getBallXdir() + 1);
+				else ball.setBallXdir(ball.getBallXdir()-1);
 			}
-			else if(new Rectangle(ball.getX(), ball.getY(), 20, 20)
-					.intersects(new Rectangle(paddle.getX(), paddle.getY(), 100, 8))) {
-				ball.inverseDirY();
+			else if(new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX()+70, paddle.getY(), 30, 8))) {
+				ball.defaultSpeed(diff);
+				ball.inverseDirX();
 			}
 
 			A: for (Brick brick : bricks) {
@@ -305,16 +298,11 @@ public class Board extends GuiPanel {
 				ballposX = 150 + randomNumbers.nextInt(100);
 				ball.setX(ballposX);
 				ball.setY(ballposY);
-				if(diff == "easy") ball.easySpeed();
-				else if (diff == "medium") ball.mediumSpeed();
-				else if (diff == "hard") ball.hardSpeed();
+				ball.defaultSpeed(diff);
 				score = 0;
 				totalBricks = COLS * ROWS;
-				for (Brick brick : bricks) {
-					if(brick instanceof WhiteBrick) ((WhiteBrick) brick).defaultValue();
-					else if(brick instanceof RedBrick) ((RedBrick) brick).defaultValue();
-					else if(brick instanceof BlueBrick) ((BlueBrick) brick).defaultValue();
-				}
+				bricks.clear();
+				initBricks(ROWS, COLS);
 			}
 		}
 	}
