@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -34,6 +34,7 @@ public class Board extends GuiPanel {
 	private Paddle paddle;
 	private ScoreManager scoreManager;
 	private List<Brick> bricks;
+	private List<Wall> walls;
 	private int brickWidth;
 	private int brickHeight;
 	private int totalBricks;
@@ -50,6 +51,7 @@ public class Board extends GuiPanel {
 			GuiScreen.getInstance().setCurrentPanel("Menu");
 		});
 		bricks = new ArrayList<>();
+		walls = new ArrayList<>();
 		ballposX = 150 + randomNumbers.nextInt(100);
 		ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
 		paddle = new Paddle(playerX, 580, 100, 8, Color.green);
@@ -121,6 +123,9 @@ public class Board extends GuiPanel {
 		// brick
 		drawBricks((Graphics2D) g);
 
+		//wall
+		drawWall(g);
+
 		// the paddle
 		paddle.draw(g);
 
@@ -170,6 +175,21 @@ public class Board extends GuiPanel {
 		}
 		super.render(g);
 	}
+	public void initWall(){
+		if(diff == "medium" || diff == "hard"){
+			walls.add(new Wall(70,330,90,15));
+			walls.add(new Wall(540,330,90,15));
+			if(diff == "hard"){
+				walls.add(new Wall(Game.BWIDTH/2-45,330,90,15));
+			}
+		}
+	}
+
+	public void drawWall(Graphics2D g){
+		for (Wall wall:walls){
+			wall.draw(g);
+		}
+	}
 
 	public void drawNewHighscore(Graphics2D g){
 		if(score>prevHighscore){
@@ -218,6 +238,8 @@ public class Board extends GuiPanel {
 			COLS = DifficultLevel.hCOLS;
 			ROWS = DifficultLevel.hROWS;
 		}
+		walls.clear();
+		initWall();
 		remove(backMenuButton);
 		ballposX = 150 + randomNumbers.nextInt(100);
 		ball.setX(ballposX);
@@ -249,6 +271,21 @@ public class Board extends GuiPanel {
 			currentHighscore = score;
 		}
 		if (play) {
+
+			for(Wall wall:walls){
+				Rectangle wallRect = new Rectangle(wall.getX(),wall.getY(),wall.getWidth(),wall.getHeight());
+				Rectangle ballRect = new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
+
+				var ballLeft = new Point(ball.getX()-1, ball.getY());
+				var ballRight = new Point(ball.getX()+ball.getWidth()+1, ball.getY());
+
+				if(ballRect.intersects(wallRect)){
+					if(ballRect.x>=wallRect.x && ballRect.x<=wallRect.x+wallRect.width) ball.inverseDirY();
+					else if(wallRect.contains(ballRight) || wallRect.contains(ballLeft)) ball.inverseDirX();
+					// if(wallRect.contains(ballRight) || wallRect.contains(ballLeft)) ball.inverseDirX();
+					// else if(ballRect.x>=wallRect.x && ballRect.x<=wallRect.x+wallRect.width) ball.inverseDirY();
+				}
+			}
 
 			if (new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX(), paddle.getY(), 30, 8))) {
 				ball.defaultSpeed(diff);
