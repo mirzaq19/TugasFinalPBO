@@ -955,3 +955,4 @@ Modifikasi yang kami lakukan dari referensi yang ada:
 3. Menambahkan fitur *highscore* dengan menerapkan konsep Serializable
 4. Menambahkan *levelling* dalam permainan
 5. Menambahkan GUI Main Menu
+6. Mengubah cara bermain dengan menambahkan mouse action
