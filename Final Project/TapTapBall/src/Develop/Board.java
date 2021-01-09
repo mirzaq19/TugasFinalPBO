@@ -21,17 +21,20 @@ public class Board extends GuiPanel {
 	private boolean saved = false;
 	private Font overTitleFont = new Font("serif", Font.BOLD, 35);
 	private Font overDesFont = new Font("serif", Font.BOLD, 25);
-	private static String diff;
+	public static String diff;
+	public static String tempDiff;
 	private int prevHighscore=0;
 	private int currentHighscore=0;
 	private int ballposX;
 	private int ballposY = 350;
-	private int playerX = 310;
+	private int playerX = 31;
 	private int score = 0;
 	private int COLS;
 	private int ROWS;
-	private Ball ball;
-	private Paddle paddle;
+	public Ball ball;
+	public Paddle paddle;
+	public Paddle paddle2;
+	public int longPaddle = 100;
 	private ScoreManager scoreManager;
 	private List<Brick> bricks;
 	private List<Wall> walls;
@@ -41,6 +44,8 @@ public class Board extends GuiPanel {
 	private int buttonWidth=220;
 	private GuiButton backMenuButton;
 	private int alpha=0;
+	public int powerUps;
+	public int countImpact;
 
 	public Board() {
 		backMenuButton = new GuiButton(Game.BWIDTH/2-buttonWidth/2,330,buttonWidth,60);
@@ -54,7 +59,9 @@ public class Board extends GuiPanel {
 		walls = new ArrayList<>();
 		ballposX = 150 + randomNumbers.nextInt(100);
 		ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
-		paddle = new Paddle(playerX, 580, 100, 8, Color.green);
+		countImpact = ball.getWidth()/20;
+		
+		paddle = new Paddle(playerX, 580, longPaddle, 8, Color.green);
 		scoreManager = new ScoreManager();
 		scoreManager.loadScore();
 	}
@@ -64,35 +71,82 @@ public class Board extends GuiPanel {
 		if (diff == "easy") {
 			brickWidth = 540 / col;
 			brickHeight = 150 / row;
+			int countPower = 2;
+			powerUps = 3;
 			for (int i = 0; i < row; i++) {
 				for (int j = 0; j < col; j++) {
-					bricks.add(new WhiteBrick(j * brickWidth + 80, i * brickHeight + 50, brickWidth, brickHeight));
+					randomBrick = randomNumbers.nextInt(5);
+					if(powerUps == 0) {
+						if(countPower > 1) {
+							powerUps = 3;
+							countPower--;
+						}
+					}
+					if(randomBrick == 2 && powerUps > 0) {
+						bricks.add(new PowerBrick(j * brickWidth + 80, i * brickHeight + 50, brickWidth, brickHeight, powerUps));
+						powerUps--;
+					}
+					else{
+						bricks.add(new WhiteBrick(j * brickWidth + 80, i * brickHeight + 50, brickWidth, brickHeight));
+					}
+						
 				}
 			}
 		} else if (diff == "medium") {
 			brickWidth = 560 / col;
 			brickHeight = 180 / row;
+			int countPower = 3;
+			powerUps = 5;
 			for (int i = 0; i < row; i++) {
 				for (int j = 0; j < col; j++) {
-					randomBrick = randomNumbers.nextInt(2);
-					if(randomBrick == 0)
-						bricks.add(new WhiteBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
-					else if(randomBrick == 1)
-						bricks.add(new RedBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+					randomBrick = randomNumbers.nextInt(8);
+					if(powerUps == 0) {
+						if(countPower > 1) {
+							powerUps = 5;
+							countPower--;
+						}
+					}
+					if(randomBrick == 2 && powerUps > 0) {
+						bricks.add(new PowerBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight, powerUps));
+						powerUps--;
+					}
+					else {
+						randomBrick = randomNumbers.nextInt(2);
+						if(randomBrick == 0)
+							bricks.add(new WhiteBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+						else if(randomBrick == 1)
+							bricks.add(new RedBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+					}
+					
 				}
 			}
 		} else if (diff == "hard") {
 			brickWidth = 560 / col;
 			brickHeight = 200 / row;
+			int countPower = 4;
+			powerUps = 5;
 			for (int i = 0; i < row; i++) {
 				for (int j = 0; j < col; j++) {
+					randomBrick = randomNumbers.nextInt(7);
+					if(powerUps == 0) {
+						if(countPower > 1) {
+							powerUps = 5;
+							countPower--;
+						}
+					}
+					if(randomBrick == 2 && powerUps > 0) {
+						bricks.add(new PowerBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight, powerUps));
+						powerUps--;
+					}
+					else {
 					randomBrick = randomNumbers.nextInt(3);
-					if(randomBrick == 0)
-						bricks.add(new WhiteBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
-					else if(randomBrick == 1)
-						bricks.add(new RedBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
-					else if(randomBrick == 2)
-						bricks.add(new BlueBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+						if(randomBrick == 0)
+							bricks.add(new WhiteBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+						else if(randomBrick == 1)
+							bricks.add(new RedBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+						else if(randomBrick == 2)
+							bricks.add(new BlueBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+					}
 				}
 			}
 		}
@@ -142,6 +196,10 @@ public class Board extends GuiPanel {
 			g.drawString("Press (Space) to Play This Game", 200, 350);
 		}
 		if(totalBricks<=0||ball.getY()>600){
+			diff = tempDiff;
+			longPaddle = 100;
+			paddle = new Paddle(paddle.getX(), 580, longPaddle, 8, Color.green);
+
 			play = false;
 			over = true;
 			ball.setBallXdir(0);
@@ -222,6 +280,7 @@ public class Board extends GuiPanel {
 	}
 
 	public void newGame(){
+		tempDiff = diff;
 		if (diff == "easy") {
 			prevHighscore = ScoreManager.easyScore;
 			currentHighscore = ScoreManager.easyScore;
@@ -276,26 +335,25 @@ public class Board extends GuiPanel {
 				Rectangle wallRect = new Rectangle(wall.getX(),wall.getY(),wall.getWidth(),wall.getHeight());
 				Rectangle ballRect = new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
 
-				var ballLeft = new Point(ball.getX()-1, ball.getY());
-				var ballRight = new Point(ball.getX()+ball.getWidth()+1, ball.getY());
-
 				if(ballRect.intersects(wallRect)){
-					if(ballRect.x>=wallRect.x && ballRect.x<=wallRect.x+wallRect.width) ball.inverseDirY();
-					else if(wallRect.contains(ballRight) || wallRect.contains(ballLeft)) ball.inverseDirX();
-					// if(wallRect.contains(ballRight) || wallRect.contains(ballLeft)) ball.inverseDirX();
-					// else if(ballRect.x>=wallRect.x && ballRect.x<=wallRect.x+wallRect.width) ball.inverseDirY();
+					if (ball.getX() + ball.getWidth() - 2 <= wallRect.x
+							|| ball.getX() + 2 >= wallRect.x + wallRect.width) {
+						ball.inverseDirX();
+					} else {
+						ball.inverseDirY();
+					}
 				}
 			}
 
-			if (new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX(), paddle.getY(), 30, 8))) {
+			if (new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight()).intersects(new Rectangle(paddle.getX(), paddle.getY(), longPaddle/3, 8))) {
 				ball.defaultSpeed(diff);
 			}
-			else if(new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX()+30, paddle.getY(), 30, 8))) {
+			else if(new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight()).intersects(new Rectangle(paddle.getX()+(1*longPaddle/3), paddle.getY(), longPaddle/3, 8))) {
 				ball.inverseDirY();
 				if(ball.getBallXdir() < 0) ball.setBallXdir(ball.getBallXdir() + 1);
 				else ball.setBallXdir(ball.getBallXdir()-1);
 			}
-			else if(new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX()+70, paddle.getY(), 30, 8))) {
+			else if(new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight()).intersects(new Rectangle(paddle.getX()+(2*longPaddle/3), paddle.getY(), longPaddle/3, 8))) {
 				ball.defaultSpeed(diff);
 				ball.inverseDirX();
 			}
@@ -304,18 +362,46 @@ public class Board extends GuiPanel {
 				if (brick.getValue() > 0) {
 					Rectangle brickRect = new Rectangle(brick.getX(), brick.getY(), brick.getWidth(), brick.getHeight());
 					Rectangle ballRect = new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
-
+						
+					
 					if (ballRect.intersects(brickRect)) {
-						brick.setValue(brick.getValue()-1);
+						if(brick.getValue() >= 4 && brick.getValue() <= 8) {
+							if(brick.getValue() == 4) {
+								diff = "fast";
+								ball.defaultSpeed(diff);
+							}else if(brick.getValue() == 5) {
+								diff = "easy";
+								ball.defaultSpeed(diff);
+							}else if(brick.getValue() == 6 || brick.getValue() == 7) {
+								longPaddle = longPaddle + 50;
+								paddle = new Paddle(paddle.getX(), 580, longPaddle, 8, Color.green);
+							}else if(brick.getValue() == 8) {		
+								longPaddle = longPaddle/2;
+								paddle = new Paddle(paddle.getX(), 580, longPaddle, 8, Color.green);
+							}
+							brick.setValue(0);
+						}
+						else
+							brick.setValue(brick.getValue()-1);
+						
 						if(brick.getValue() == 0) {							
 							totalBricks--;
 						}
 						score += 5;
-						if (ball.getX() + ball.getWidth() - 1 <= brickRect.x
-								|| ball.getX() + 1 >= brickRect.x + brickRect.width) {
-							ball.inverseDirX();
+						if (ball.getX() + ball.getWidth() - (ball.getWidth()/10)<= brickRect.x
+								|| ball.getX() + (ball.getWidth()/10) >= brickRect.x + brickRect.width) {
+							countImpact--;
+							if(countImpact == 0) {
+								ball.inverseDirX();
+								countImpact = ball.getWidth()/20;
+							}
 						} else {
-							ball.inverseDirY();
+							countImpact--;
+							if(countImpact == 0) {
+								ball.inverseDirY();
+								countImpact = ball.getWidth()/20;
+							}
+								
 						}
 						break A;
 					}
