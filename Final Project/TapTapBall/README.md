@@ -1,5 +1,5 @@
-# Tentang TapTapBall
-TapTapGame merupakan sebuah permainan yang bertujuan untuk menghancurkan objek lain seperti batu bata dengan menggunakan bola. Pada permainan ini, pemain akan menggunakan sebuah objek *paddle* yang berfungsi untuk memantulkan bola agar tidak jatuh ke bawah. 
+# **Tentang TapTapBall**
+TapTapBall merupakan sebuah permainan yang bertujuan untuk menghancurkan objek lain seperti batu bata dengan menggunakan bola. Pada permainan ini, pemain akan menggunakan sebuah objek *paddle* yang berfungsi untuk memantulkan bola agar tidak jatuh ke bawah. 
 
 Permainan ini memiliki tiga level yang terbagi menjadi *easy*, *medium*, dan *hard* dengan masing-masing level terdapat *brick* yang memiliki tingkat kesulitan yang berbeda.
 
@@ -12,12 +12,13 @@ Kemudian ada beberapa kelas yang digunakan untuk membuat permainan ini dengan te
   4. [WhiteBrick](src/Develop/WhiteBrick.java)
   5. [RedBrick](src/Develop/RedBrick.java)
   6. [BlueBrick](src/Develop/BlueBrick.java)
-  7. [Paddle](src/Develop/Paddle.java)
-  8. [DifficultLevel](src/Develop/DifficultLevel.java)
-  9. [ScoreManager](bin/Develop/ScoreManager.class)
-  10. [Board](src/Develop/Board.java)
-  11. [Game](src/Develop/Game.java)
-  12. [MainApp](src/Develop/MainApp.java)
+  7. [Wall](src/Develop/Wall.java)
+  8. [Paddle](src/Develop/Paddle.java)
+  9. [DifficultLevel](src/Develop/DifficultLevel.java)
+  10. [ScoreManager](bin/Develop/ScoreManager.class)
+  11. [Board](src/Develop/Board.java)
+  12. [Game](src/Develop/Game.java)
+  13. [MainApp](src/Develop/MainApp.java)
 
 * *Class* untuk GUI
   1. [MainMenuPanel](src/Develop/MainMenuPanel.java)
@@ -26,7 +27,16 @@ Kemudian ada beberapa kelas yang digunakan untuk membuat permainan ini dengan te
   4. [GuiPanel](src/Develop/GuiPanel.java)
   5. [GuiButton](src/Develop/GuiButton.java)
   6. [DifficultyPanel](src/Develop/DifficultyPanel.java)
-  7. [CreditPanel](src/Develop/CreditPanel.java) 
+  7. [CreditPanel](src/Develop/CreditPanel.java)
+
+<br></br>
+# `A. Class Diagram`
+Hubungan antar *class* dapat dilihat pada diagram berikut:
+
+![Main](https://user-images.githubusercontent.com/40484843/103629414-d8f91280-4f72-11eb-8928-c8e26b5a928b.jpg)
+
+<br></br>
+# `B. Penjelasan Kelas`
 
 ## 1. Kelas `GameObject`
 Kelas ini merupakan kelas parent dari *subclass* `Ball`, `Paddle`, dan `Brick` yang berisi fungsi dasar dari objeknya, yakni koordinat, tinggi, lebar, dan warna.
@@ -86,7 +96,7 @@ public void setColor(Color color) {
   this.color = color;
 }
 ```
-
+<br></br>
 ## 2. Kelas `Ball`
 Kelas ini merupakan anak dari kelas `GameObject` yang digunakan untuk mendefinisikan sifat dasar bola dalam permainan.
 
@@ -174,7 +184,7 @@ public void inverseDirY() {
   ballYdir = -ballYdir;
 }
 ```
-
+<br></br>
 ## 3. Kelas `Brick`
 Kelas ini berfungsi untuk menampilkan *brick* atau semacam batu bata yang nantinya akan dihancurkan pemain menggunakan bola dalam permainan.
 
@@ -214,7 +224,7 @@ public void setValue(int value) {
   }
 }
 ```
-
+<br></br>
 ## 4. Kelas `WhiteBrick`
 Kelas ini merupakan *subclass* dari `Brick` yang berisikan *constructor* dan fungsi **defaultValue()** untuk mengatur warna dan tingkat kesulitan dari *brick*.
 
@@ -230,7 +240,7 @@ public void defaultValue() {
   this.color = Color.white;
 }
 ```
-
+<br></br>
 ## 5. Kelas `RedBrick`
 Sama seperti kelas `WhiteBrick`, hanya berbeda di warna dan tingkat kesulitan.
 
@@ -246,7 +256,7 @@ public void defaultValue() {
   this.color = Color.red;
 }
 ```
-
+<br></br>
 ## 6. Kelas `BlueBrick`
 Sama seperti kelas `WhiteBrick`, hanya berbeda di warna dan tingkat kesulitan.
 
@@ -262,11 +272,26 @@ public void defaultValue() {
   this.color = Color.blue;
 }
 ```
+<br></br>
+## 7. Kelas `Wall`
+Kelas ini digunakan unutk inisiasi objek *wall* yang berfungsi sebagai penghalang bola ketika menghancurkan *brick*. Juga terdapat *constructor* seperti kelas lainnya.
 
-## 7. Kelas `Paddle`
+```JAVA
+public Wall(int x, int y, int width, int height) {
+    super(x, y, width, height);
+    this.color = new Color(210, 235, 190);
+}
+
+public void draw(Graphics2D g){
+    g.setColor(color);
+    g.fillRect(x, y, width, height);
+}
+```
+<br></br>
+## 8. Kelas `Paddle`
 Kelas ini digunakan untuk inisiasi dari *paddle* yang nantinya berfungsi sebagai pencegah jatuhnya bola dalam permainan dengan cara memantulkan bola. 
 
-Sama seperti subkelas `Balls` dan `Bricks`, di kelas ini terdapat *constructor* yang berasal dari kelas utamanya.
+Sama seperti subkelas sebelumnya, di kelas ini terdapat *constructor* yang berasal dari kelas utamanya.
 
 ```JAVA
 public Paddle(int x, int y, int width, int height, Color color) {
@@ -297,8 +322,8 @@ public void draw(Graphics g) {
   g.fillRect(x, y, width, height);
 }
 ```
-
-## 8. Kelas `DifficultLevel`
+<br></br>
+## 9. Kelas `DifficultLevel`
 Di kelas ini mengatur jumlah dari *brick* di setiap level. terdapat variabel **eCOLS** dan **eROWS** yang bermakna jumlah kolom serta baris di level *easy*. Dan sama halnya dengan itu, variabel **mCOLS**, **mROWS**, **hCOLS**, serta **hROWS** untuk level *medium* dan *hard*.
 
 ```JAVA
@@ -311,8 +336,8 @@ public static int mROWS = 4;
 public static int hCOLS = 10;
 public static int hROWS = 5;
 ```
-
-## 9. Kelas `ScoreManager`
+<br></br>
+## 10. Kelas `ScoreManager`
 Kelas ini digunakna untuk mengatur penyimpanan skor pemain dalam file biner yang nantinya digunakan penentuan *highscore* di permainan.
 
 terdapat variabel **easyScore**, **mediumScore**, dan **hardScore** bertipe integer yang digunakan untuk menyimpan skor ketika permainan berlangsung. Begitu juga dengan variabel **currentEasy**, **currentMedium**, serta **currentHard** yang dipakai untuk menyimpan skor terbaru.
@@ -421,11 +446,11 @@ public void SaveScore(){
     }
 }
 ```
-
-## 10. Kelas `Board`
+<br></br>
+## 11. Kelas `Board`
 Di kelas `Board` ini adalah tempat di mana permainan berlangsung serta mengatur posisi dari setiap objek pada awal permainan. Tidak hanya itu, setiap objek dalam permainan konfigurasinya berbeda berdasarkan pada tingkat kesulitan yang dipilih, yaitu **Easy**, **Medium**, ataupun **Hard**.
 
-Pada *Constructor* di kelas ini berisi inisiasi objek bola, *paddle*, *brick*, *back button*, serta skor dalam permainan. Adapun untuk objek bola posisi koordinat x akan ditentukan secara random oleh sistem.
+Pada *Constructor* di kelas ini berisi inisiasi objek bola, *paddle*, *brick*, *wall*, *back button*, serta skor dalam permainan. Adapun untuk objek bola posisi koordinat x akan ditentukan secara random oleh sistem.
 
 ```JAVA
 public Board() {
@@ -437,6 +462,7 @@ public Board() {
     GuiScreen.getInstance().setCurrentPanel("Menu");
   });
   bricks = new ArrayList<>();
+  walls = new ArrayList<>();
   ballposX = 150 + randomNumbers.nextInt(100);
   ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
   paddle = new Paddle(playerX, 580, 100, 8, Color.green);
@@ -515,6 +541,9 @@ public void render(Graphics2D g) {
   // brick
   drawBricks((Graphics2D) g);
 
+  //wall
+		drawWall(g);
+
   // the paddle
   paddle.draw(g);
 
@@ -577,6 +606,26 @@ public void drawNewHighscore(Graphics2D g){
 }
 ```
 
+Terdapat fungsi **initWall()** untuk mengatur letak dari *wall* di setiap level, juga fungsi **drawWall()** untuk menampilkan objek tersebut di *frame*.
+
+```JAVA
+public void initWall(){
+  if(diff == "medium" || diff == "hard"){
+    walls.add(new Wall(70,330,90,15));
+    walls.add(new Wall(540,330,90,15));
+    if(diff == "hard"){
+      walls.add(new Wall(Game.BWIDTH/2-45,330,90,15));
+    }
+  }
+}
+
+public void drawWall(Graphics2D g){
+  for (Wall wall:walls){
+    wall.draw(g);
+  }
+}
+```
+
 Selanjutnya terdapat fungsi **saveData()** yang berfungsi untuk menyimpan skor dari pemain di setiap tingkat kesulitannya.
 
 ```JAVA
@@ -607,7 +656,7 @@ public static void setDiff(String diff) {
 }
 ```
 
-Juga terdapat fungsi **newGame()** untuk menampilkan *highscore* sebelumnya, beserta *brick* di masing-masing level. Juga fungsi **resetBoard()** untk kembali ke tampilan awal.
+Juga terdapat fungsi **newGame()** untuk menampilkan *highscore* sebelumnya, beserta *brick* dan *wall* di masing-masing level. Juga fungsi **resetBoard()** untk kembali ke tampilan awal.
 
 ```JAVA
 public void newGame(){
@@ -627,6 +676,8 @@ public void newGame(){
     COLS = DifficultLevel.hCOLS;
     ROWS = DifficultLevel.hROWS;
   }
+	walls.clear();
+  initWall();
   remove(backMenuButton);
   ballposX = 150 + randomNumbers.nextInt(100);
   ball.setX(ballposX);
@@ -662,6 +713,19 @@ public void update() {
     currentHighscore = score;
   }
   if (play) {
+
+    for(Wall wall:walls){
+      Rectangle wallRect = new Rectangle(wall.getX(),wall.getY(),wall.getWidth(),wall.getHeight());
+      Rectangle ballRect = new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
+
+      var ballLeft = new Point(ball.getX()-1, ball.getY());
+      var ballRight = new Point(ball.getX()+ball.getWidth()+1, ball.getY());
+
+      if(ballRect.intersects(wallRect)){
+        if(ballRect.x>=wallRect.x && ballRect.x<=wallRect.x+wallRect.width) ball.inverseDirY();
+        else if(wallRect.contains(ballRight) || wallRect.contains(ballLeft)) ball.inverseDirX();
+      }
+    }
 
     if (new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX(), paddle.getY(), 30, 8))) {
       ball.defaultSpeed(diff);
@@ -728,8 +792,8 @@ public void keyPressed(KeyEvent e) {
   }
 }
 ```
-
-## 11. Kelas `Game`
+<br></br>
+## 12. Kelas `Game`
 Kelas ini digunakan untuk mengatur *event handling* ketika pemain berada di menu utama permainan.
 
 ```JAVA
@@ -776,19 +840,19 @@ public void drawBackground(Graphics2D g) {
 
 @Override
 public void keyTyped(KeyEvent e) {
-  // TODO Auto-generated method stub
+
 
 }
 
 @Override
 public void keyPressed(KeyEvent e) {
-  // TODO Auto-generated method stub
+
   screen.keyPressed(e);
 }
 
 @Override
 public void keyReleased(KeyEvent e) {
-  // TODO Auto-generated method stub
+
 
 }
 
@@ -834,8 +898,8 @@ public void mouseExited(MouseEvent e) {
 
 }
 ```
-
-## 12. Kelas `MainApp`
+<br></br>
+## 13. Kelas `MainApp`
 Kelas ini digunakan untuk menjalankan program.
 
 ```JAVA
@@ -852,31 +916,42 @@ public class MainApp {
 	}
 }
 ```
+<br></br>
+## 14. `Tampilan Game`
 
-
-## Tampilan Game
-
-**Tampilan Awal**
+**- Tampilan Main Menu**
 
 ![MainMenu](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/mainmenu.gif)
-
-**Tampilan Easy Level**
+<br></br>
+**- Tampilan Easy Level**
 
 ![Easy](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/easylevel.gif)
-
-**Tampilan Medium Level**
+<br></br>
+**- Tampilan Medium Level**
 
 ![Medium](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/mediumlevel.gif)
-
-**Tampilan Hard Level**
+<br></br>
+**- Tampilan Hard Level**
 
 ![Hard](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/hardLevel.gif)
+<br></br>
 
-## `Class Diagram`
-Hubungan antar Class dapat dilihat pada diagram berikut:
+# `C. Fitur Game`
+Berikut beberapa fitur pada Permainan TapTapBall:
+1. Terdapat GUI Main Menu yang berisikan *button* **Play** yang mengarah ke pemilihan level, **Leaderboards** mengarah ke *highscore* dari setiap level, **Credit** mengarah ke penjelasan singkat mengenai game, dan **Quit** yang berarti keluar dari permainan
+2. Terdapat level yang terbagi menjadi 3, yaitu **easy**, **medium**, dan **hard**
+3. Terdapat Highscore di setiap level dan dapat dilihat di bagian **Leaderboards**
+4. Terdapat tingkat kesulitan *brick* yang terdiri sebanyak tiga tingkat
+5. Terdapat *wall* di permainan yang menambah kesulitan pemain untuk menghancurkan *bricks* yang ada
 
-![Main](https://user-images.githubusercontent.com/40484843/103629414-d8f91280-4f72-11eb-8928-c8e26b5a928b.jpg)
-
+# `D. Modifikasi Game`
 Referensi:
-1. [Github](https://github.com/awaismirza/Java-Game-Brick-Breaker)
-2. [Youtube](https://youtu.be/K9qMm3JbOH0)
+* [Github](https://github.com/awaismirza/Java-Game-Brick-Breaker)
+* [Youtube](https://youtu.be/K9qMm3JbOH0)
+
+Modifikasi yang kami lakukan dari referensi yang ada:
+1. Menerapkan konsep Inheritance pada objek *ball*, *paddle*, *brick*, serta *wall*
+2. Menerapkan konsep Polimorfisme pada *brick* yang terbagi menjadi *white brick*, *red brick*, dan *blue brick*
+3. Menambahkan fitur *highscore* dengan menerapkan konsep Serializable
+4. Menambahkan *levelling* dalam permainan
+5. Menambahkan GUI Main Menu
