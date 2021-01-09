@@ -941,7 +941,7 @@ Berikut beberapa fitur pada Permainan TapTapBall:
 1. Terdapat GUI Main Menu yang berisikan *button* **Play** yang mengarah ke pemilihan level, **Leaderboards** mengarah ke *highscore* dari setiap level, **Credit** mengarah ke penjelasan singkat mengenai game, dan **Quit** yang berarti keluar dari permainan
 2. Terdapat level yang terbagi menjadi 3, yaitu **easy**, **medium**, dan **hard**
 3. Terdapat Highscore di setiap level dan dapat dilihat di bagian **Leaderboards**
-4. Terdapat tingkat kesulitan *brick* yang terdiri sebanyak tiga tingkat
+4. Terdapat tingkat kesulitan *brick* yang terdiri sebanyak tiga tingkat kekerasan, yaitu **putih**, **merah**, dan **biru**
 5. Terdapat *wall* di permainan yang menambah kesulitan pemain untuk menghancurkan *bricks* yang ada
 
 # `D. Modifikasi Game`
@@ -950,8 +950,9 @@ Referensi:
 * [Youtube](https://youtu.be/K9qMm3JbOH0)
 
 Modifikasi yang kami lakukan dari referensi yang ada:
-1. Menerapkan konsep Inheritance pada objek *ball*, *paddle*, *brick*, serta *wall*
+1. Menerapkan konsep Inheritance pada objek *ball*, *paddle*, *brick*, serta tambahan objek berupa *wall*
 2. Menerapkan konsep Polimorfisme pada *brick* yang terbagi menjadi *white brick*, *red brick*, dan *blue brick*
 3. Menambahkan fitur *highscore* dengan menerapkan konsep Serializable
 4. Menambahkan *levelling* dalam permainan
 5. Menambahkan GUI Main Menu
+6. Mengubah cara bermain dengan menambahkan mouse action
