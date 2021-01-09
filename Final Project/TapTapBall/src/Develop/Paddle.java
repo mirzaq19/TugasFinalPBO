@@ -12,12 +12,13 @@ public class Paddle extends GameObject{
 
 	public void move(MouseEvent e) {
 		x = e.getX()-width/2;
+		System.out.println(x);
 		if(x<10) {
 			x=10;
 		}
 		
-		if(x>590) {
-			x=590;
+		if(x>(690-width)) {
+			x=(690-width);
 		}
 	}
 	
