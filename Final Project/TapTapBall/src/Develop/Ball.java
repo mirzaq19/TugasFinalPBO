@@ -55,14 +55,17 @@ public class Ball extends GameObject{
 
 	public void defaultSpeed(String diff){
 		if(diff == "easy") {
+			this.ballXdir = -1;
+			this.ballYdir = -2;
+		}else if(diff == "medium"){
+			this.ballXdir = -1;
+			this.ballYdir = -2;
+		} else if(diff == "hard"){
+			this.ballXdir = -1;
+			this.ballYdir = -2;
+		}else if(diff == "fast") {
 			this.ballXdir = -2;
 			this.ballYdir = -4;
-		}else if(diff == "medium"){
-			this.ballXdir = -3;
-			this.ballYdir = -5;
-		} else if(diff == "hard"){
-			this.ballXdir = -4;
-			this.ballYdir = -6;
 		}
 	}
 	
