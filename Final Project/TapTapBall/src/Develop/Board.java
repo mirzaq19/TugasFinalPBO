@@ -44,7 +44,6 @@ public class Board extends GuiPanel {
 	private GuiButton backMenuButton;
 	private int alpha=0;
 	public int powerUps;
-	public int countImpact;
 
 	public Board() {
 		backMenuButton = new GuiButton(Game.BWIDTH/2-buttonWidth/2,330,buttonWidth,60);
@@ -58,7 +57,6 @@ public class Board extends GuiPanel {
 		walls = new ArrayList<>();
 		ballposX = 150 + randomNumbers.nextInt(100);
 		ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
-		countImpact = ball.getWidth()/20;
 		
 		paddle = new Paddle(playerX, 580, longPaddle, 8, Color.green);
 		scoreManager = new ScoreManager();
@@ -385,20 +383,11 @@ public class Board extends GuiPanel {
 							totalBricks--;
 						}
 						score += 5;
-						if (ball.getX() + ball.getWidth() - (ball.getWidth()/10)<= brickRect.x
-								|| ball.getX() + (ball.getWidth()/10) >= brickRect.x + brickRect.width) {
-							countImpact--;
-							if(countImpact == 0) {
-								ball.inverseDirX();
-								countImpact = ball.getWidth()/20;
-							}
+						if (ball.getX() + ball.getWidth() - 2<= brickRect.x
+								|| ball.getX() + 2 >= brickRect.x + brickRect.width) {
+							ball.inverseDirX();
 						} else {
-							countImpact--;
-							if(countImpact == 0) {
-								ball.inverseDirY();
-								countImpact = ball.getWidth()/20;
-							}
-								
+							ball.inverseDirY();								
 						}
 						break A;
 					}
