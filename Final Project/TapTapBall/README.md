@@ -1,7 +1,9 @@
 # **Tentang TapTapBall**
 TapTapBall merupakan sebuah permainan yang bertujuan untuk menghancurkan objek lain seperti batu bata dengan menggunakan bola. Pada permainan ini, pemain akan menggunakan sebuah objek *paddle* yang berfungsi untuk memantulkan bola agar tidak jatuh ke bawah. 
 
-Permainan ini memiliki tiga level yang terbagi menjadi *easy*, *medium*, dan *hard* dengan masing-masing level terdapat *brick* yang memiliki tingkat kesulitan yang berbeda.
+Permainan ini memiliki tiga level yang terbagi menjadi *easy*, *medium*, dan *hard* dengan masing-masing level terdapat *brick* yang memiliki tingkat kesulitan yang berbeda. Jika pada level *easy* memiliki *brick* yang akan hancur hanya dengan satu kali terkena bola, berbeda dengan level medium dan hard yang memiliki *brick* yang akan hancur dengan 2 atau 3 kali terkena bola.
+
+Lalu terdapat spesial brick yang akan memberi efek pada bola maupun paddle jika dihancurkan, seperti menambah kecepatan bola, mengembalikan kecepatan bola ke semula, dan menambah ataupun mengurangi panjang dari paddle paddle.
 
 Kemudian ada beberapa kelas yang digunakan untuk membuat permainan ini dengan terbagi menjadi dua kelompok:
 
