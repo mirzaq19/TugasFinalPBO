@@ -1071,8 +1071,9 @@ Referensi:
 
 Modifikasi yang kami lakukan dari referensi yang ada:
 1. Menerapkan konsep Inheritance pada objek *ball*, *paddle*, *brick*, serta tambahan objek berupa *wall*
-2. Menerapkan konsep Polimorfisme pada *brick* yang terbagi menjadi *white brick*, *red brick*, dan *blue brick*
-3. Menambahkan fitur *highscore* dengan menerapkan konsep Serializable
-4. Menambahkan *levelling* dalam permainan
+2. Menerapkan konsep Polimorfisme pada *brick* yang terbagi menjadi *white brick*, *red brick*, *blue brick*, dan *power brick*
+3. Power brick memiliki efek yang akan diberikan pada *ball* dan *paddle*, seperti mempercepat bola, menambah atupun mengurangi panjang paddle.
+3. Menambahkan fitur *highscore* yang akan disimpan secara permanen dengan menerapkan konsep Serializable
+4. Menambahkan *levelling* yang terdiri dari easy, medium, dan hard dalam permainan
 5. Menambahkan GUI Main Menu
 6. Mengubah cara bermain dengan menambahkan mouse action
