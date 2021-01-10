@@ -12,13 +12,14 @@ Kemudian ada beberapa kelas yang digunakan untuk membuat permainan ini dengan te
   4. [WhiteBrick](src/Develop/WhiteBrick.java)
   5. [RedBrick](src/Develop/RedBrick.java)
   6. [BlueBrick](src/Develop/BlueBrick.java)
-  7. [Wall](src/Develop/Wall.java)
-  8. [Paddle](src/Develop/Paddle.java)
-  9. [DifficultLevel](src/Develop/DifficultLevel.java)
-  10. [ScoreManager](bin/Develop/ScoreManager.class)
-  11. [Board](src/Develop/Board.java)
-  12. [Game](src/Develop/Game.java)
-  13. [MainApp](src/Develop/MainApp.java)
+  7. [PowerBrick](src/Develop/PowerBrick.java)
+  8. [Wall](src/Develop/Wall.java)
+  9. [Paddle](src/Develop/Paddle.java)
+  10. [DifficultLevel](src/Develop/DifficultLevel.java)
+  11. [ScoreManager](bin/Develop/ScoreManager.class)
+  12. [Board](src/Develop/Board.java)
+  13. [Game](src/Develop/Game.java)
+  14. [MainApp](src/Develop/MainApp.java)
 
 * *Class* untuk GUI
   1. [MainMenuPanel](src/Develop/MainMenuPanel.java)
@@ -128,16 +129,32 @@ Adapun untuk variabel y apabila kecepatan bernilai negatif, maka bola akan menga
 
 ```JAVA
 public void defaultSpeed(String diff){
-  if(diff == "easy") {
-    this.ballXdir = -2;
-    this.ballYdir = -4;
-  }else if(diff == "medium"){
-    this.ballXdir = -3;
-    this.ballYdir = -5;
-  } else if(diff == "hard"){
-    this.ballXdir = -4;
-    this.ballYdir = -6;
-  }
+	if(diff == "easy") {
+		this.ballXdir = -2;
+		this.ballYdir = -3;
+	}else if(diff == "medium"){
+		this.ballXdir = -3;
+		this.ballYdir = -4;
+	} else if(diff == "hard"){
+		this.ballXdir = -4;
+		this.ballYdir = -5;
+	}
+}
+```
+
+Selanjutnya, terdapat fungsi **boostSpeed()** yang mengatur kecepatan bola saat mendapat PowerUps merah sesuai dengan tingkat kesulitan permainan saat itu.
+```JAVA
+public void boostSpeed(String diff){
+	if(diff == "easy") {
+		this.ballXdir = -3;
+		this.ballYdir = -4;
+	}else if(diff == "medium"){
+		this.ballXdir = -4;
+		this.ballYdir = -5;
+	} else if(diff == "hard"){
+		this.ballXdir = -6;
+		this.ballYdir = -7;
+	}
 }
 ```
 
@@ -187,7 +204,7 @@ public void inverseDirY() {
 ## 3. Kelas `Brick`
 Kelas ini berfungsi untuk menampilkan *brick* atau semacam batu bata yang nantinya akan dihancurkan pemain menggunakan bola dalam permainan.
 
-Terdapat *constructor* yang sama seperti *constructor* pada kelas utamanya. Lalu, ada fungsi **draw()** yang kegunaannya untuk mengatur warna, posisi, panjang, serta lebar dari *brick*.
+Terdapat *constructor* yang sama seperti *constructor* pada kelas utamanya. Lalu, ada fungsi **draw()** yang kegunaannya untuk mengatur warna, posisi, panjang, dan lebar dari *brick* serta membuat brick PowerUps sesuai nilai value 4-8.
 
 ```JAVA
 public Brick(int x, int y, int width, int height) {
@@ -197,6 +214,24 @@ public Brick(int x, int y, int width, int height) {
 public void draw(Graphics2D g) {
   g.setColor(color);
   g.fillRect(x, y, width, height);
+  if(color == Color.cyan) {
+	if(value == 4) {
+		g.setColor(Color.red);
+		g.fillRect(x+width/4, y+height/4, width/2, height/2);
+	}
+	else if(value == 5) {
+		g.setColor(Color.blue);
+		g.fillRect(x+width/4, y+height/4, width/2, height/2);
+	}
+	else if(value == 6 || value == 7) {
+		g.setColor(Color.green);
+		g.fillRect(x+width/4, y+height/4, width/2, height/2);
+	}
+	else if(value == 8) {
+		g.setColor(Color.black);
+		g.fillRect(x+width/4, y+height/4, width/2, height/2);
+	}
+  }
   g.setStroke(new BasicStroke(3));
   g.setColor(Color.black);
   g.drawRect(x, y, width, height);
@@ -271,8 +306,25 @@ public void defaultValue() {
   this.color = Color.blue;
 }
 ```
+## 7. Kelas `PowerBrick`
+Berbeda dengan jenis *Brick* sebelumnya, *PowerBrick* mengandung PowerUps didalamnya sehingga ketika bola menumbuk *PowerBrick*, maka akan terjadi suatu keajaiban.
+Untuk codenya sama seperti kelas `WhiteBrick`, hanya berbeda di warna dan nilai value yang nantinya akan disesuaikan dengan nilai powerUps.
+
+```JAVA
+public PowerBrick(int x, int y, int width, int height, int powerUps) {
+	super(x,y,width,height);
+	this.color = Color.cyan;
+	this.value = 3 + powerUps;
+}
+	
+public void defaultValue() {
+	this.value = 4;
+	this.color = Color.cyan;
+}
+```
+
 <br></br>
-## 7. Kelas `Wall`
+## 8. Kelas `Wall`
 Kelas ini digunakan unutk inisiasi objek *wall* yang berfungsi sebagai penghalang bola ketika menghancurkan *brick*. Juga terdapat *constructor* seperti kelas lainnya.
 
 ```JAVA
@@ -287,7 +339,7 @@ public void draw(Graphics2D g){
 }
 ```
 <br></br>
-## 8. Kelas `Paddle`
+## 9. Kelas `Paddle`
 Kelas ini digunakan untuk inisiasi dari *paddle* yang nantinya berfungsi sebagai pencegah jatuhnya bola dalam permainan dengan cara memantulkan bola. 
 
 Sama seperti subkelas sebelumnya, di kelas ini terdapat *constructor* yang berasal dari kelas utamanya.
@@ -307,8 +359,8 @@ public void move(MouseEvent e) {
     x=10;
   }
   
-  if(x>590) {
-    x=590;
+  if(x>(690-width)) {
+    x=(690-width);
   }
 }
 ```
@@ -322,21 +374,21 @@ public void draw(Graphics g) {
 }
 ```
 <br></br>
-## 9. Kelas `DifficultLevel`
+## 10. Kelas `DifficultLevel`
 Di kelas ini mengatur jumlah dari *brick* di setiap level. terdapat variabel **eCOLS** dan **eROWS** yang bermakna jumlah kolom serta baris di level *easy*. Dan sama halnya dengan itu, variabel **mCOLS**, **mROWS**, **hCOLS**, serta **hROWS** untuk level *medium* dan *hard*.
 
 ```JAVA
-public static int eCOLS = 7;
-public static int eROWS = 3;
+public static int eCOLS = 10;
+public static int eROWS = 5;
 
-public static int mCOLS = 9;
-public static int mROWS = 4;
+public static int mCOLS = 15;
+public static int mROWS = 7;
     
-public static int hCOLS = 10;
-public static int hROWS = 5;
+public static int hCOLS = 20;
+public static int hROWS = 10;
 ```
 <br></br>
-## 10. Kelas `ScoreManager`
+## 11. Kelas `ScoreManager`
 Kelas ini digunakna untuk mengatur penyimpanan skor pemain dalam file biner yang nantinya digunakan penentuan *highscore* di permainan.
 
 terdapat variabel **easyScore**, **mediumScore**, dan **hardScore** bertipe integer yang digunakan untuk menyimpan skor ketika permainan berlangsung. Begitu juga dengan variabel **currentEasy**, **currentMedium**, serta **currentHard** yang dipakai untuk menyimpan skor terbaru.
@@ -446,7 +498,7 @@ public void SaveScore(){
 }
 ```
 <br></br>
-## 11. Kelas `Board`
+## 12. Kelas `Board`
 Di kelas `Board` ini adalah tempat di mana permainan berlangsung serta mengatur posisi dari setiap objek pada awal permainan. Tidak hanya itu, setiap objek dalam permainan konfigurasinya berbeda berdasarkan pada tingkat kesulitan yang dipilih, yaitu **Easy**, **Medium**, ataupun **Hard**.
 
 Pada *Constructor* di kelas ini berisi inisiasi objek bola, *paddle*, *brick*, *wall*, *back button*, serta skor dalam permainan. Adapun untuk objek bola posisi koordinat x akan ditentukan secara random oleh sistem.
@@ -464,7 +516,7 @@ public Board() {
   walls = new ArrayList<>();
   ballposX = 150 + randomNumbers.nextInt(100);
   ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
-  paddle = new Paddle(playerX, 580, 100, 8, Color.green);
+  paddle = new Paddle(playerX, 580, longPaddle, 8, Color.green);
   scoreManager = new ScoreManager();
   scoreManager.loadScore();
 }
@@ -476,40 +528,86 @@ Berikutnya ada fungsi untuk menginisiasi objek *brick* atau batu bata yang akan 
 public void initBricks(int row, int col) {
   int randomBrick=0;
   if (diff == "easy") {
-    brickWidth = 540 / col;
-    brickHeight = 150 / row;
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < col; j++) {
-        bricks.add(new WhiteBrick(j * brickWidth + 80, i * brickHeight + 50, brickWidth, brickHeight));
-      }
-    }
-  } else if (diff == "medium") {
-    brickWidth = 560 / col;
-    brickHeight = 180 / row;
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < col; j++) {
-        randomBrick = randomNumbers.nextInt(2);
-        if(randomBrick == 0)
-          bricks.add(new WhiteBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
-        else if(randomBrick == 1)
-          bricks.add(new RedBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
-      }
-    }
-  } else if (diff == "hard") {
-    brickWidth = 560 / col;
-    brickHeight = 200 / row;
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < col; j++) {
-        randomBrick = randomNumbers.nextInt(3);
-        if(randomBrick == 0)
-          bricks.add(new WhiteBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
-        else if(randomBrick == 1)
-          bricks.add(new RedBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
-        else if(randomBrick == 2)
-          bricks.add(new BlueBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
-      }
-    }
-  }
+		brickWidth = 540 / col;
+		brickHeight = 150 / row;
+		int countPower = 2;
+		powerUps = 3;
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				randomBrick = randomNumbers.nextInt(5);
+				if(powerUps == 0) {
+					if(countPower > 1) {
+						powerUps = 3;
+						countPower--;
+					}
+				}
+				if(randomBrick == 2 && powerUps > 0) {
+					bricks.add(new PowerBrick(j * brickWidth + 80, i * brickHeight + 50, brickWidth, brickHeight, powerUps));
+					powerUps--;
+				}
+				else{
+					bricks.add(new WhiteBrick(j * brickWidth + 80, i * brickHeight + 50, brickWidth, brickHeight));
+				}
+					
+			}
+		}
+	} else if (diff == "medium") {
+		brickWidth = 560 / col;
+		brickHeight = 180 / row;
+		int countPower = 3;
+		powerUps = 5;
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				randomBrick = randomNumbers.nextInt(8);
+				if(powerUps == 0) {
+					if(countPower > 1) {
+						powerUps = 5;
+						countPower--;
+					}
+				}
+				if(randomBrick == 2 && powerUps > 0) {
+					bricks.add(new PowerBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight, powerUps));
+					powerUps--;
+				}
+				else {
+					randomBrick = randomNumbers.nextInt(2);
+					if(randomBrick == 0)
+						bricks.add(new WhiteBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+					else if(randomBrick == 1)
+						bricks.add(new RedBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+				}
+				
+			}
+		}
+	} else if (diff == "hard") {
+		brickWidth = 560 / col;
+		brickHeight = 200 / row;
+		int countPower = 4;
+		powerUps = 5;
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				randomBrick = randomNumbers.nextInt(7);
+				if(powerUps == 0) {
+					if(countPower > 1) {
+						powerUps = 5;
+						countPower--;						}
+				}
+				if(randomBrick == 2 && powerUps > 0) {
+					bricks.add(new PowerBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight, powerUps));
+					powerUps--;
+				}
+				else {
+				randomBrick = randomNumbers.nextInt(3);
+					if(randomBrick == 0)
+						bricks.add(new WhiteBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+					else if(randomBrick == 1)
+						bricks.add(new RedBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+					else if(randomBrick == 2)
+						bricks.add(new BlueBrick(j * brickWidth + 70, i * brickHeight + 50, brickWidth, brickHeight));
+				}
+			}
+		}
+	}
 }
 ```
 
@@ -559,6 +657,9 @@ public void render(Graphics2D g) {
     g.drawString("Press (Space) to Play This Game", 200, 350);
   }
   if(totalBricks<=0||ball.getY()>600){
+    longPaddle = 100;
+    paddle = new Paddle(paddle.getX(), 580, longPaddle, 8, Color.green);
+    
     play = false;
     over = true;
     ball.setBallXdir(0);
@@ -718,50 +819,68 @@ public void update() {
       Rectangle wallRect = new Rectangle(wall.getX(),wall.getY(),wall.getWidth(),wall.getHeight());
       Rectangle ballRect = new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
 
-      var ballLeft = new Point(ball.getX()-1, ball.getY());
-      var ballRight = new Point(ball.getX()+ball.getWidth()+1, ball.getY());
-
-      if(ballRect.intersects(wallRect)){
-        if(ballRect.x>=wallRect.x && ballRect.x<=wallRect.x+wallRect.width) ball.inverseDirY();
-        else if(wallRect.contains(ballRight) || wallRect.contains(ballLeft)) ball.inverseDirX();
-      }
+     if(ballRect.intersects(wallRect)){
+	if (ball.getX() + ball.getWidth() - 2 <= wallRect.x
+ 			|| ball.getX() + 2 >= wallRect.x + wallRect.width) {
+			ball.inverseDirX();
+		} else {
+			ball.inverseDirY();
+		}
+	}
     }
 
-    if (new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX(), paddle.getY(), 30, 8))) {
-      ball.defaultSpeed(diff);
+    if (new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight()).intersects(new Rectangle(paddle.getX(), paddle.getY(), longPaddle/3, 8))) {
+				ball.defaultSpeed(diff);
     }
-    else if(new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX()+30, paddle.getY(), 30, 8))) {
-      ball.inverseDirY();
-      if(ball.getBallXdir() < 0) ball.setBallXdir(ball.getBallXdir() + 1);
-      else ball.setBallXdir(ball.getBallXdir()-1);
+    else if(new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight()).intersects(new Rectangle(paddle.getX()+(1*longPaddle/3), paddle.getY(), longPaddle/3, 			8))) {
+	ball.inverseDirY();
+	if(ball.getBallXdir() < 0) ball.setBallXdir(ball.getBallXdir() + 1);
+	else ball.setBallXdir(ball.getBallXdir()-1);
     }
-    else if(new Rectangle(ball.getX(), ball.getY(), 20, 20).intersects(new Rectangle(paddle.getX()+70, paddle.getY(), 30, 8))) {
-      ball.defaultSpeed(diff);
-      ball.inverseDirX();
+    else if(new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight()).intersects(new Rectangle(paddle.getX()+(2*longPaddle/3), paddle.getY(), longPaddle/3, 			8))) {
+	ball.defaultSpeed(diff);
+	ball.inverseDirX();
     }
 
     A: for (Brick brick : bricks) {
-      if (brick.getValue() > 0) {
-        Rectangle brickRect = new Rectangle(brick.getX(), brick.getY(), brick.getWidth(), brick.getHeight());
-        Rectangle ballRect = new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
-
-        if (ballRect.intersects(brickRect)) {
-          brick.setValue(brick.getValue()-1);
-          if(brick.getValue() == 0) {							
-            totalBricks--;
-          }
-          score += 5;
-          if (ball.getX() + ball.getWidth() - 1 <= brickRect.x
-              || ball.getX() + 1 >= brickRect.x + brickRect.width) {
-            ball.inverseDirX();
-          } else {
-            ball.inverseDirY();
-          }
-          break A;
-        }
-      }
-    }
-    ball.move();
+		if (brick.getValue() > 0) {
+			Rectangle brickRect = new Rectangle(brick.getX(), brick.getY(), brick.getWidth(), brick.getHeight());
+			Rectangle ballRect = new Rectangle(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
+						
+					
+			if (ballRect.intersects(brickRect)) {
+				if(brick.getValue() >= 4 && brick.getValue() <= 8) {
+					if(brick.getValue() == 4) {
+						ball.boostSpeed(diff);
+					}else if(brick.getValue() == 5) {
+						ball.defaultSpeed(diff);
+					}else if(brick.getValue() == 6 || brick.getValue() == 7) {
+						longPaddle = longPaddle + 50;
+						paddle = new Paddle(paddle.getX(), 580, longPaddle, 8, Color.green);
+					}else if(brick.getValue() == 8) {		
+						longPaddle = longPaddle/2;
+						paddle = new Paddle(paddle.getX(), 580, longPaddle, 8, Color.green);
+					}
+					brick.setValue(0);
+				}
+				else
+					brick.setValue(brick.getValue()-1);
+		
+				if(brick.getValue() == 0) {							
+					totalBricks--;
+				}
+				score += 5;
+				if (ball.getX() + ball.getWidth() - 2<= brickRect.x
+					|| ball.getX() + 2 >= brickRect.x + brickRect.width) {
+					ball.inverseDirX();
+				} else {
+					ball.inverseDirY();								
+				}
+				break A;
+			}
+		}
+	}
+	ball.move();
   }
   if(alpha<200 && over) alpha+=2;
 }
@@ -793,7 +912,7 @@ public void keyPressed(KeyEvent e) {
 }
 ```
 <br></br>
-## 12. Kelas `Game`
+## 13. Kelas `Game`
 Kelas ini digunakan untuk mengatur *event handling* ketika pemain berada di menu utama permainan.
 
 ```JAVA
@@ -899,7 +1018,7 @@ public void mouseExited(MouseEvent e) {
 }
 ```
 <br></br>
-## 13. Kelas `MainApp`
+## 14. Kelas `MainApp`
 Kelas ini digunakan untuk menjalankan program.
 
 ```JAVA
@@ -917,7 +1036,7 @@ public class MainApp {
 }
 ```
 <br></br>
-## 14. `Tampilan Game`
+## 15. `Tampilan Game`
 
 **- Tampilan Main Menu**
 
