@@ -3,7 +3,7 @@ TapTapBall merupakan sebuah permainan yang bertujuan untuk menghancurkan objek l
 
 Permainan ini memiliki tiga level yang terbagi menjadi *easy*, *medium*, dan *hard* dengan masing-masing level terdapat *brick* yang memiliki tingkat kesulitan yang berbeda. Jika pada level *easy* memiliki *brick* yang akan hancur hanya dengan satu kali terkena bola, berbeda dengan level medium dan hard yang memiliki *brick* yang akan hancur dengan 2 atau 3 kali terkena bola.
 
-Lalu terdapat spesial brick yang akan memberi efek pada bola maupun paddle jika dihancurkan, seperti menambah kecepatan bola, mengembalikan kecepatan bola ke semula, dan menambah ataupun mengurangi panjang dari paddle paddle.
+Lalu terdapat spesial brick yang akan memberi efek pada bola maupun paddle jika dihancurkan, seperti menambah kecepatan bola, mengembalikan kecepatan bola ke semula, dan menambah ataupun mengurangi panjang dari paddle.
 
 Kemudian ada beberapa kelas yang digunakan untuk membuat permainan ini dengan terbagi menjadi dua kelompok:
 
@@ -41,7 +41,7 @@ Hubungan antar *class* dapat dilihat pada diagram berikut:
 # `B. Penjelasan Kelas`
 
 ## 1. Kelas `GameObject`
-Kelas ini merupakan kelas parent dari *subclass* `Ball`, `Paddle`, dan `Brick` yang berisi fungsi dasar dari objeknya, yakni koordinat, tinggi, lebar, dan warna.
+Kelas ini digunakan sebagai kelas utama atau parent dari *subclass* `Ball`, `Paddle`, dan `Brick` yang berisi fungsi dasar dari objeknya, yakni koordinat, tinggi, lebar, dan warna.
 
 ```JAVA
 public GameObject(int x, int y, int width, int height) {
