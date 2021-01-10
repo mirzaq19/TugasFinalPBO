@@ -943,7 +943,7 @@ Berikut beberapa fitur pada Permainan TapTapBall:
 3. Terdapat Highscore di setiap level dan dapat dilihat di bagian **Leaderboards**
 4. Terdapat tingkat kesulitan *brick* yang terdiri sebanyak tiga tingkat kekerasan, yaitu **putih**, **merah**, dan **biru**
 5. Terdapat *wall* di permainan yang menambah kesulitan pemain untuk menghancurkan *bricks* yang ada
-
+<br></br>
 # `D. Modifikasi Game`
 Referensi:
 * [Github](https://github.com/awaismirza/Java-Game-Brick-Breaker)
