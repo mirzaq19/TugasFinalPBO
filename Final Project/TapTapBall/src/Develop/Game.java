@@ -24,7 +24,7 @@ public class Game extends JPanel implements ActionListener, KeyListener, MouseLi
 	public static final int BWIDTH = 700;
 	public static final int BHEIGHT = 600;
 	private Image BoardBackground;
-	private int DELAY = 2;
+	private int DELAY = 8;
 	private Timer timer;
 	public static final Font mfont = new Font("serif", Font.BOLD, 35);
 	private GuiScreen screen;
