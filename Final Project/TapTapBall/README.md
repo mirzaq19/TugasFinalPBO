@@ -1040,19 +1040,19 @@ public class MainApp {
 
 **- Tampilan Main Menu**
 
-![MainMenu](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/MainMenu.gif)
+![MainMenu](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/.gif)
 <br></br>
 **- Tampilan Easy Level**
 
-![Easy](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/EasyLevel.gif)
+![Easy](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/.gif)
 <br></br>
 **- Tampilan Medium Level**
 
-![Medium](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/MediumLevel.gif)
+![Medium](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/.gif)
 <br></br>
 **- Tampilan Hard Level**
 
-![Hard](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/HardLevel.gif)
+![Hard](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/.gif)
 <br></br>
 
 # `C. Fitur Game`
