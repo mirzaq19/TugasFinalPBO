@@ -1061,7 +1061,8 @@ Berikut beberapa fitur pada Permainan TapTapBall:
 2. Terdapat level yang terbagi menjadi 3, yaitu **easy**, **medium**, dan **hard**
 3. Terdapat Highscore di setiap level dan dapat dilihat di bagian **Leaderboards**
 4. Terdapat tingkat kesulitan *brick* yang terdiri sebanyak tiga tingkat kekerasan, yaitu **putih**, **merah**, dan **biru**
-5. Terdapat *wall* di permainan yang menambah kesulitan pemain untuk menghancurkan *bricks* yang ada
+5. Terdapat *Powerbrick* yang isinya PowerUps **merah**, **biru**, **hijau**, dan **hitam** dapat mengubah kecepatan bola atau panjang kecilnya *Paddler*
+6. Terdapat *wall* di permainan yang menambah kesulitan pemain untuk menghancurkan *bricks* yang ada
 <br></br>
 # `D. Modifikasi Game`
 Referensi:
