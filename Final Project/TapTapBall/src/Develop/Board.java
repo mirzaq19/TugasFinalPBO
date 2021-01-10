@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -367,10 +366,8 @@ public class Board extends GuiPanel {
 					if (ballRect.intersects(brickRect)) {
 						if(brick.getValue() >= 4 && brick.getValue() <= 8) {
 							if(brick.getValue() == 4) {
-								diff = "fast";
-								ball.defaultSpeed(diff);
+								ball.boostSpeed(diff);
 							}else if(brick.getValue() == 5) {
-								diff = "easy";
 								ball.defaultSpeed(diff);
 							}else if(brick.getValue() == 6 || brick.getValue() == 7) {
 								longPaddle = longPaddle + 50;

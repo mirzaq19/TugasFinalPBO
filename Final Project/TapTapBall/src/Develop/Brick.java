@@ -15,7 +15,7 @@ public class Brick extends GameObject{
 		g.setColor(color);
 		g.fillRect(x, y, width, height);
 		
-		if(color == color.cyan) {
+		if(color == Color.cyan) {
 			if(value == 4) {
 				g.setColor(Color.red);
 				g.fillRect(x+width/4, y+height/4, width/2, height/2);
