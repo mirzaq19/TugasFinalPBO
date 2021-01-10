@@ -33,8 +33,7 @@ Kemudian ada beberapa kelas yang digunakan untuk membuat permainan ini dengan te
 # `A. Class Diagram`
 Hubungan antar *class* dapat dilihat pada diagram berikut:
 
-![Main](https://user-images.githubusercontent.com/40484843/103629414-d8f91280-4f72-11eb-8928-c8e26b5a928b.jpg)
-
+![Main](https://github.com/mirzaq19/TugasFinalPBO/blob/main/Final%20Project/TapTapBall/Class%20Diagram%20TapBalls.jpg?raw=true)
 <br></br>
 # `B. Penjelasan Kelas`
 
