@@ -1044,15 +1044,15 @@ public class MainApp {
 
 ![MainMenu](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/MainMenu.gif)
 <br></br>
-**- Tampilan Easy Level**
+**- Tampilan `Easy` Level**
 
 ![Easy](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/EasyLevel.gif)
 <br></br>
-**- Tampilan Medium Level**
+**- Tampilan `Medium` Level**
 
 ![Medium](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/MediumLevel.gif)
 <br></br>
-**- Tampilan Hard Level**
+**- Tampilan `Hard` Level**
 
 ![Hard](https://raw.githubusercontent.com/mirzaq19/TugasFinalPBO/main/Final%20Project/TapTapBall/src/resources/HardLevel.gif)
 <br></br>
