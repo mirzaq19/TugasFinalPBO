@@ -11,7 +11,7 @@ public class CreditPanel extends GuiPanel {
     private String title = "Credit";
     private int a = 280;
     public GuiButton backButton;
-    private String[] credit = {"Game TapTapBall merupakan game yang bertujuan untuk menghancurkan ","objek batu bata. Pemain akan bertugas menjaga bola yang digunakan untuk ","menghancurkan batu bata agar tidak jatuh dengan memantulkan bola pada ","paddle yang berada dibawah"," ","Pembuat : ","1. M. Auliya Mirzaq Romdloni","2. Husin Muhammad Assegaf","3. Nur Putra Khanafi"};
+    private String[] credit = {"Game TapTapBall merupakan game yang bertujuan untuk menghancurkan ","objek batu bata. Pemain akan bertugas menjaga bola yang digunakan untuk ","menghancurkan batu bata agar tidak jatuh dengan memantulkan bola pada ","paddle yang berada dibawah. Terdapat beberapa variasi brick/batu bata pada","setiap levelnya. Dan juga terdapat beberapa brick spesial yang akan memberi ", "efek pada bola ataupun paddle, seperti merubah kecepatan bola ataupun ","merubah panjang dari paddle untuk menambah tingkat kesulitan"," ","Pembuat : ","1. M. Auliya Mirzaq Romdloni","2. Husin Muhammad Assegaf","3. Nur Putra Khanafi"};
     
     public CreditPanel(){
         super();
