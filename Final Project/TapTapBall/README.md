@@ -125,9 +125,9 @@ public void setBallYdir(int ballYdir) {
 }
 ```
 
-Kemudian, terdapat fungsi **defaultSpeed()** yang mengatur kecepatan bola pada setiap tingkat kesulitan di permainan. 
+Kemudian, terdapat fungsi **defaultSpeed()** yang mengeset/mengatur kecepatan bola pada sesuai dengan tingkat kesulitan yang dipilih dalam permainan. 
 
-Adapun untuk variabel y apabila kecepatan bernilai negatif, maka bola akan mengarah ke atas. Dan begitu juga sebaliknya, apabila kecepatan di variabel y bernilai positif, maka bola akan bergerak ke bawah. Sedangkan di variabel x berlaku pada umumnya. jika positif, maka bola akan bergerak ke kanan dan berlaku kebalikannya.
+Adapun untuk variabel y apabila kecepatan bernilai negatif, maka bola akan mengarah ke atas. Dan begitu juga sebaliknya, apabila kecepatan di variabel y bernilai positif, maka bola akan bergerak ke bawah. Sedangkan di variabel x berlaku pada umumnya. jika positif, maka bola akan bergerak ke kanan dan berlaku kebalikannya jika negatif akan bergerak ke kiri.
 
 ```JAVA
 public void defaultSpeed(String diff){
