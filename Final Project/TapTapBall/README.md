@@ -18,10 +18,11 @@ Kemudian ada beberapa kelas yang digunakan untuk membuat permainan ini dengan te
   8. [Wall](src/Develop/Wall.java)
   9. [Paddle](src/Develop/Paddle.java)
   10. [DifficultLevel](src/Develop/DifficultLevel.java)
-  11. [ScoreManager](bin/Develop/ScoreManager.class)
-  12. [Board](src/Develop/Board.java)
-  13. [Game](src/Develop/Game.java)
-  14. [MainApp](src/Develop/MainApp.java)
+  11. [ScoreManager](src/Develop/ScoreManager.java)
+  12. [Score](src/Develop/Score.java)
+  13. [Board](src/Develop/Board.java)
+  14. [Game](src/Develop/Game.java)
+  15. [MainApp](src/Develop/MainApp.java)
 
 * *Class* untuk GUI
   1. [MainMenuPanel](src/Develop/MainMenuPanel.java)
@@ -500,7 +501,52 @@ public void SaveScore(){
 }
 ```
 <br></br>
-## 12. Kelas `Board`
+## 12. Kelas `Score`
+Kelas ini digunakan untuk menerapkan konsep *serializable* pada *highscore*. Terdapat *constructor* yang mengatur skor di masing-masing level.
+
+Juga terdapat fungsi **getter** dan **setter** pada setiap variabel.
+
+```JAVA
+private int easy;
+private int medium;
+private int hard;
+
+public Score(){
+    this(0,0,0);
+}
+
+public Score(int easy, int medium, int hard) {
+    this.easy = easy;
+    this.medium = medium;
+    this.hard = hard;
+}
+
+public int getEasy() {
+    return easy;
+}
+
+public void setEasy(int easy) {
+    this.easy = easy;
+}
+
+public int getMedium() {
+    return medium;
+}
+
+public void setMedium(int medium) {
+    this.medium = medium;
+}
+
+public int getHard() {
+    return hard;
+}
+
+public void setHard(int hard) {
+    this.hard = hard;
+}
+```
+<br></br>
+## 13. Kelas `Board`
 Di kelas `Board` ini adalah tempat di mana permainan berlangsung serta mengatur posisi dari setiap objek pada awal permainan. Tidak hanya itu, setiap objek dalam permainan konfigurasinya berbeda berdasarkan pada tingkat kesulitan yang dipilih, yaitu **Easy**, **Medium**, ataupun **Hard**.
 
 Pada *Constructor* di kelas ini berisi inisiasi objek bola, *paddle*, *brick*, *wall*, *back button*, serta skor dalam permainan. Adapun untuk objek bola posisi koordinat x akan ditentukan secara random oleh sistem.
@@ -518,6 +564,7 @@ public Board() {
   walls = new ArrayList<>();
   ballposX = 150 + randomNumbers.nextInt(100);
   ball = new Ball(ballposX, ballposY, 20, 20, Color.yellow);
+
   paddle = new Paddle(playerX, 580, longPaddle, 8, Color.green);
   scoreManager = new ScoreManager();
   scoreManager.loadScore();
@@ -914,7 +961,7 @@ public void keyPressed(KeyEvent e) {
 }
 ```
 <br></br>
-## 13. Kelas `Game`
+## 14. Kelas `Game`
 Kelas ini digunakan untuk mengatur *event handling* ketika pemain berada di menu utama permainan.
 
 ```JAVA
@@ -1020,7 +1067,7 @@ public void mouseExited(MouseEvent e) {
 }
 ```
 <br></br>
-## 14. Kelas `MainApp`
+## 15. Kelas `MainApp`
 Kelas ini digunakan untuk menjalankan program.
 
 ```JAVA
@@ -1038,7 +1085,7 @@ public class MainApp {
 }
 ```
 <br></br>
-## 15. `Tampilan Game`
+## 16. `Tampilan Game`
 
 **- Tampilan Main Menu**
 
@@ -1078,4 +1125,4 @@ Modifikasi yang kami lakukan dari referensi yang ada:
 3. Menambahkan fitur *highscore* yang akan disimpan secara permanen dengan menerapkan konsep Serializable
 4. Menambahkan *levelling* yang terdiri dari easy, medium, dan hard dalam permainan
 5. Menambahkan GUI Main Menu
-6. Mengubah cara bermain dengan menambahkan mouse action
+6. Mengubah cara bermain dengan menambahkan *mouse action*
