@@ -193,7 +193,6 @@ public class Board extends GuiPanel {
 			g.drawString("Press (Space) to Play This Game", 200, 350);
 		}
 		if(totalBricks<=0||ball.getY()>600){
-			diff = tempDiff;
 			longPaddle = 100;
 			paddle = new Paddle(paddle.getX(), 580, longPaddle, 8, Color.green);
 
@@ -277,7 +276,6 @@ public class Board extends GuiPanel {
 	}
 
 	public void newGame(){
-		tempDiff = diff;
 		if (diff == "easy") {
 			prevHighscore = ScoreManager.easyScore;
 			currentHighscore = ScoreManager.easyScore;
