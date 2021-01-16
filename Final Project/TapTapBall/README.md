@@ -1126,3 +1126,7 @@ Modifikasi yang kami lakukan dari referensi yang ada:
 4. Menambahkan *levelling* yang terdiri dari easy, medium, dan hard dalam permainan
 5. Menambahkan GUI Main Menu
 6. Mengubah cara bermain dengan menambahkan *mouse action*
+
+# `E. Video Presentasi Final Project`
+Berikut link Youtube dari video presentasi kelompok kami,
+* [Video Final Project](https://youtu.be/M1NNvnWvpGo)
